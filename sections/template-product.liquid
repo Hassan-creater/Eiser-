@@ -299,14 +299,19 @@
         <div class="details hidden comments w-full p-[0.3em] bg-green-400">
           <div class="w-full flex gap-4">
             <div class="w-full p-[0.3em] bg-red-200">
-              
+              <!-- Start of Judge.me code --> 
+  <div style='clear:both'></div> 
+  <div id='judgeme_product_reviews' class='jdgm-widget jdgm-review-widget' data-id='{{ product.id }}'> 
+    {{ product.metafields.judgeme.widget }} 
+  </div> 
+<!-- End of Judge.me code -->
 
             </div>
            
           </div>
         
         </div>
-        <div class="details hidden reviews w-full p-[0.3em] bg-green-400">
+        <div class="details hidden reviw w-full p-[0.3em] bg-green-400">
           <div class="w-full flex gap-4">
             <div class="w-full p-[0.3em] bg-red-200">
               <!-- Start of Judge.me code --> 
