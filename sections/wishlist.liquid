@@ -1,0 +1,226 @@
+<div class=" max-w-[1440px] mx-auto w-full  p-[1em] py-[3em] px-[5em]">
+    <h1 class="text-center text-3xl font-semibold ">{{ section.settings.title }}</h1>
+    
+    <div id="list_container" class="w-full p-[0.5em]  mt-[3em] flex flex-wrap gap-4 ">
+    </div>
+
+</div>
+
+
+<script>
+class Wishlist {
+  constructor(listContainerSelector) {
+    this.listContainer = document.querySelector(listContainerSelector);
+    this.bindEvents();
+    this.showProducts();
+    this.container();
+  }
+
+  container(){
+    let list = this.getList();
+    
+    if(list.length == 0){
+      this.listContainer.innerHTML = `<p class="text-2xl text-center w-full mt-[4em] mb-[4em]">Your list is empty<p>` 
+    }
+    
+  }
+  
+  // Retrieve wishlist from localStorage (an array of product handles)
+  getList() {
+    const wishlist = localStorage.getItem('wishlist');
+    return wishlist ? JSON.parse(wishlist) : [];
+  }
+
+  // Fetch product data using its handle
+  async fetchProduct(handle) {
+    try {
+      const res = await fetch(`/products/${handle}.js`);
+      if (!res.ok) throw new Error('Network response was not ok');
+      return await res.json();
+    } catch (error) {
+      console.error(`Error fetching product ${handle}:`, error);
+      return null;
+    }
+  }
+
+  // Create a product card element with full HTML and include all functionalities
+  createProductCard(product) {
+    const div = document.createElement('div');
+    // You can add a "product-card" class here in addition to your responsive utility classes
+    div.className = 'product-card sm:w-full lg:w-[32%] p-1 group';
+    
+    div.innerHTML = `
+      <div class="w-full h-[347px] bg-[#F0F2F1] relative flex justify-center items-center overflow-hidden">
+        <a class="w-full h-full" href="${product.url}">
+          ${
+            product.images.length > 0
+              ? `<img src="${product.images[0]}" alt="${product.title}" class="object-center object-cover w-full h-full">`
+              : `<svg class="placeholder">...</svg>`
+          }
+        </a>
+        <div class="w-[90%] p-[0.5em] bg-[rgba(113,205,20,0.55)] absolute bottom-0 flex justify-evenly items-center translate-y-[5em] group-hover:-translate-y-[0em] duration-500">
+          <div class="flex p-[0.6em] justify-center items-center rounded-full bg-white hover:bg-green-500 hover:text-white duration-300">
+            <i class="fa-solid fa-eye text-[1em]"></i>
+          </div>
+          <div data-product-handle="${product.handle}" class="wishlist flex p-[0.6em] justify-center items-center rounded-full bg-white hover:bg-green-500 text-red-400 hover:text-red-500 duration-300">
+            <i class="fa-solid fa-heart"></i>
+          </div>
+
+          <form class="add-to-cart-form" data-product-id="${product.variants[0].id}">
+            <input type="hidden" name="id" value="${product.variants[0].id}">
+            <button type="submit" class="add-to-cart-button flex p-[0.6em] justify-center items-center rounded-full bg-white hover:bg-green-500 hover:text-white duration-300 cursor-pointer">
+              <i class="fa-solid fa-cart-shopping"></i>
+            </button>
+          </form>
+          
+        </div>
+      </div>
+      <div class="w-full h-[99px] border-[1px] border-slate-300 p-[1.5em] flex flex-col justify-center gap-[0.5em]">
+        <p class="text-[14px] roboto group-hover:text-green-500 duration-300">${product.title}</p>
+        <div class="w-full flex gap-[1.3em] items-center">
+          <p class="text-[20px] roboto">${product.price}</p>
+        </div>
+      </div>
+    `;
+    return div;
+  }
+
+  // Fetch all products from the wishlist and append them to the container
+  async showProducts() {
+    const list = this.getList();
+    this.listContainer.innerHTML = ''; // Clear previous content
+
+    // Fetch products in parallel
+    const fetchPromises = list.map(handle => this.fetchProduct(handle));
+    const products = await Promise.all(fetchPromises);
+
+    products.forEach(product => {
+      if (product) {
+        const productCard = this.createProductCard(product);
+        this.listContainer.appendChild(productCard);
+      }
+    });
+  }
+
+  
+  
+
+  // Attach event listeners using event delegation
+  bindEvents() {
+    // Handle add-to-cart form submission events
+    this.listContainer.addEventListener('submit', async (e) => {
+      if (e.target && e.target.matches('.add-to-cart-form')) {
+        e.preventDefault();
+        const form = e.target;
+        const formData = new FormData(form);
+        const addButton = form.querySelector('.add-to-cart-button');
+
+        // Store original button innerHTML
+        const originalHTML = addButton.innerHTML;
+        addButton.disabled = true;
+        addButton.innerHTML = 'Adding...';
+
+        try {
+          const response = await fetch('/cart/add.js', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams(formData).toString()
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+          // Update cart counters after successful addition
+          const data = await response.json();
+          const cartUpdate = await fetch('/cart.js');
+          const cartData = await cartUpdate.json();
+          const cartCounters = document.querySelectorAll('#cart-count');
+          cartCounters.forEach(span => {
+            span.textContent = cartData.item_count;
+          });
+
+        } catch (error) {
+          console.error('Add to cart failed:', error);
+          alert(`Could not add item: ${error.message}`);
+        } finally {
+          addButton.disabled = false;
+          addButton.innerHTML = originalHTML;
+        }
+      }
+    });
+
+    // Handle heart icon click to remove product from wishlist
+    this.listContainer.addEventListener('click', (e) => {
+      const heartEl = e.target.closest('.wishlist');
+      if (heartEl) {
+        const productHandle = heartEl.getAttribute('data-product-handle');
+        if (!productHandle) return;
+
+        // Remove the product handle from the wishlist array
+        let wishlist = this.getList();
+        wishlist = wishlist.filter(handle => handle !== productHandle);
+        localStorage.setItem('wishlist', JSON.stringify(wishlist));
+
+       
+
+        // Remove the corresponding product card from the DOM
+        const productCard = heartEl.closest('.product-card');
+        if (productCard) {
+          productCard.remove();
+
+          let list = this.getList();
+          let count = document.querySelector('.wish_count');
+          if(list.length != 0){
+            count.textContent = list.length;
+          }else{
+            count.textContent = '';
+            this.container();
+          }
+          
+        }
+      }
+    });
+  }
+}
+
+// Initialize the Wishlist class when the DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+  new Wishlist('#list_container');
+});
+
+   
+
+
+
+
+
+
+
+
+     
+     
+
+  
+
+  
+  
+
+</script>
+
+
+{% schema %}
+{
+    "name": "Wishlist",
+    "settings": [
+          {
+            "type": "text",
+             "id": "title",
+             "default" : "Your Wishlist",
+             "label": "Title"
+          }
+        ]
+}
+{% endschema %}

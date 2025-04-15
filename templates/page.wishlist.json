@@ -1,0 +1,13 @@
+
+{
+    "sections": {
+        "template":{
+            "type" : "wishlist"
+        }
+    },
+
+    "order" : ["template"]
+}
+
+
+
