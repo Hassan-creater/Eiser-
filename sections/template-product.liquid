@@ -241,9 +241,9 @@
     </div>
 
     {% comment %} des,specs,comments,reviews {% endcomment %}
-    <div class="w-full px-[5em] py-[1em] bg-red-400">
-      <div class="options w-full p-[0.5em] flex justify-center items-center gap-4 bg-[#F6F6F6] ">
-        <div class=" btn flex justify-center items-center rounded-sm border border-slate-300 w-[8em] p-[0.5em] bg-lime-500">
+    <div class="w-full px-[5em] py-[1em] ">
+      <div class="options w-full p-[0.5em] flex justify-center border-t-[0.5px] border-l-[0.5px] border-r-[0.5px] border-slate-300 items-center gap-4 bg-[#F6F6F6] ">
+        <div class=" btn flex justify-center items-center rounded-sm border border-slate-300 w-[8em] p-[0.5em] ">
           <p>Description</p>
         </div>
         <div class=" btn flex justify-center items-center rounded-sm border border-slate-300 w-[8em] p-[0.5em] bg-white">
@@ -257,32 +257,32 @@
         </div>
       </div>
 
-      <div class="w-full px-[0.5em] py-[2em] bg-yellow-300">
-        <div class="details description w-full p-[0.3em] bg-green-200 duration-300">
+      <div class="w-full px-[0.5em] py-[2em] border-b-[0.5px] border-l-[0.5px] border-r-[0.5px] border-slate-300 ">
+        <div class="details description w-full p-[0.3em]  duration-300">
           <p>{{ product.description }}</p>
         </div>
-        <div class="details hidden specification w-full p-[0.3em] bg-green-300">
+        <div class="details hidden specification w-full p-[0.3em] ">
           {% if product.options_with_values %}
             {% for option in product.options_with_values %}
               <div class="w-full px-[3em] flex border-b-[0.5px] border-slate-200 py-[0.3em] justify-evenly">
                 <p class="w-1/2">{{ option.name }}</p>
-                
-                 <div class="w-1/2 flex flex-col gap-3">
-                 {% for values in option.values %}
-                  <p >{{ values }}</p>
-              {% endfor %}
-                 </div>
-                
-                 
+
+                <div class="w-1/2 flex flex-col gap-3">
+                  {% for values in option.values %}
+                    <p>{{ values }}</p>
+                  {% endfor %}
+                </div>
+
+
               </div>
-               
+
             {% endfor %}
           {% endif %}
-           
+
           <div class="w-full px-[3em] flex border-b-[0.5px] border-slate-200 py-[0.3em] justify-evenly">
             <p class="w-1/2">Size</p>
 
-              <p class="w-1/2" >{{ product.metafields.custom.size }}</p>
+            <p class="w-1/2">{{ product.metafields.custom.size }}</p>
 
           </div>
 
@@ -290,23 +290,47 @@
           <div class="w-full px-[3em] flex border-b-[0.5px] border-slate-200 py-[0.3em] justify-evenly">
             <p class="w-1/2">Weight</p>
 
-              <p class="w-1/2" >{{ product.metafields.custom.weight }}</p>
+            <p class="w-1/2">{{ product.metafields.custom.weight }}</p>
 
           </div>
-          
+
         </div>
 
-        <div class="details hidden comments w-full p-[0.3em] bg-green-400">
+        <div class="details hidden comments w-full p-[0.3em] ">
           <div class="w-full flex gap-4">
-            <div class="w-1/2 p-[0.3em] bg-red-200"></div>
-            <div class="w-1/2 p-[0.3em] bg-red-200">
-             
+            <div class="w-full p-[0.3em] ">
+              <!-- Start of Judge.me code -->
+              <div style='clear:both'></div>
+              <div
+                id='judgeme_product_reviews'
+                class='jdgm-widget jdgm-review-widget'
+                data-id='{{ product.id }}'>
+                {{ product.metafields.judgeme.widget }}
+              </div>
+            <!-- End of Judge.me code -->
+
             </div>
+
           </div>
-        
+
         </div>
-        <div class="details hidden reviews w-full p-[0.3em] bg-green-500">
-          <p>Reviews</p>
+        <div class="details hidden reviews w-full p-[0.3em] ">
+          <div class="w-full flex gap-4">
+            <div class="w-full p-[0.3em] ">
+              <!-- Start of Judge.me code -->
+              <div style='clear:both'></div>
+              <div
+                id='judgeme_product_reviews'
+                class='jdgm-widget jdgm-review-widget'
+                data-id='{{ product.id }}'>
+                {{ product.metafields.judgeme.widget }}
+              </div>
+            <!-- End of Judge.me code -->
+
+            </div>
+
+          </div>
+
         </div>
       </div>
     </div>
@@ -353,10 +377,10 @@
           btns.forEach((b)=>{
              
           b.classList.add('bg-white')
-
+    
              b.addEventListener('click',()=>{
               
-
+    
           
              this.TabDetail(b.textContent.trim().toLowerCase()
              );

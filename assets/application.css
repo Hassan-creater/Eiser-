@@ -956,6 +956,14 @@
     border-top-style: var(--tw-border-style);
     border-top-width: 1px;
   }
+  .border-t-\[0\.5px\] {
+    border-top-style: var(--tw-border-style);
+    border-top-width: 0.5px;
+  }
+  .border-r-\[0\.5px\] {
+    border-right-style: var(--tw-border-style);
+    border-right-width: 0.5px;
+  }
   .border-b {
     border-bottom-style: var(--tw-border-style);
     border-bottom-width: 1px;
@@ -975,6 +983,10 @@
   .border-l {
     border-left-style: var(--tw-border-style);
     border-left-width: 1px;
+  }
+  .border-l-\[0\.5px\] {
+    border-left-style: var(--tw-border-style);
+    border-left-width: 0.5px;
   }
   .border-none {
     --tw-border-style: none;
