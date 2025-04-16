@@ -41,3 +41,14 @@
   .hide::-webkit-scrollbar{
     display: none;
   }
+
+
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    opacity: 1; /* Show the arrows */
+    height: 30px; /* Set the height of the arrows */
+    width: 40px; /* Set the width of the arrows */
+    background-color: slategrey;
+  }
+  

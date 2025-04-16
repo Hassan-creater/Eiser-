@@ -8,7 +8,7 @@
         {% for product in collections.all.products reversed limit: 8 %}
             
             <div class=" w-full sm:w-[48%]  md:w-[24%] md:h-[47%]  ">
-        <div class="w-full h-[16em] bg-[#F0F2F1] relative flex justify-center items-center overflow-hidden group">
+        <a href="{{ product.url }}" class="w-full h-[16em] bg-[#F0F2F1] relative flex justify-center items-center overflow-hidden group">
           {% if product.featured_image %}
              <img src="{{ product.featured_image | img_url: 'medium' }}" alt="{{ product.featured_image.alt }}" width="" height="" class="object-center object-cover w-full h-full ">
              {% else %}
@@ -31,7 +31,7 @@
           </form>
            
           </div>
-        </div>
+        </a>
         <div class="w-full h-[5.5em]  border-[1px]  border-slate-300 p-[1.5em] flex flex-col justify-center gap-[0.5em]">
         <p class="text-[14px] roboto group-hover:text-green-500 duration-300 ">{{ product.title |  truncate: 23 }}</p>
         <div class="w-full flex gap-[1.3em] items-center  ">
