@@ -94,24 +94,24 @@
 
     {% else %}
     {% comment %} PRODUCT SEARCH RESULTS {% endcomment %}
-    <div class="container mx-auto">
+    <div class="container mx-auto w-full  mb-[5em]">
         {% paginate search.results by 10 %}
             <h1 class="text-xl my-4 text-center">Search Results</h1>
     
             <div class="flex justify-center items-center">
-                <form action="{{ routes.search_url }}" method="get" class="border flex rounded">
+                <form action="{{ routes.search_url }}" method="get" class=" flex rounded">
                     <input type="search" name="q" placeholder="Search" value="{{ search.terms | escape }}"
-                        class="px-4 py-2 w-80 border-none"
+                        class="px-4 py-2 w-80 border border-lime-500 focus:outline-none"
                     >
     
-                    <button type="submit" class="bg-gray-900 hover:bg-gray-700 text-white border px-4">Search</button>
+                    <button type="submit" class="bg-lime-500 hover:bg-transparent duration-300 hover:text-lime-500 border-lime-500 text-white border px-4">Search</button>
                 </form>
             </div>
             {% if search.performed %}
                 {% if search.results.size > 0 %}
-                    <div class="max-w-6xl mx-auto">
-                        <p class="text-gray-500 text-center my-10">{{ search.results.size }} results for the search term {{ search.terms | escape }}</p>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="w-full  mx-auto px-[5em]">
+                        <p class="text-gray-500 text-center mt-[1em] mb-[2em]">{{ search.results.size }} results for the search term {{ search.terms | escape }}</p>
+                        <div class="w-full flex  gap-4 flex-wrap">
                             {% for item in search.results %}
                                 {% case item.object_type %}
                                     {% when 'product' %}
