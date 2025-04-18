@@ -5,11 +5,9 @@ function getWishlist() {
   return wishlist ? JSON.parse(wishlist) : [];
 }
 
-
 function setWishlist(list) {
   localStorage.setItem('wishlist', JSON.stringify(list));
 }
-
 
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.add-to-cart-form').forEach((form) => {
@@ -96,12 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             
           })
-        })
-
-
-
-       
-        
+        })   
   });
 
 
