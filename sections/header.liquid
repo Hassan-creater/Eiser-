@@ -95,7 +95,7 @@ x-cloak>
           </nav>
           
           <!-- Icons -->
-          <div class="hidden lg:flex items-center space-x-6 text-[14px] w-[20%]  justify-between">
+          <div class="hidden lg:flex items-center space-x-6 text-[14px] w-[20%]  justify-center">
             <button
               x-on:click="search = true"
               type="button"
@@ -133,7 +133,7 @@ x-cloak>
     
                     {% else %}
                      
-                      <a  class="hover:text-[#71CD14] duration-300 hover:translate-y-1 hidden lg:block" href="{{routes.account_login_url}}">Login</a>
+                      <a  class="hover:text-[#71CD14] duration-300 hover:translate-y-1 hidden lg:block" href="{{routes.account_login_url}}">LogIn</a>
                       {% comment %} <a class="hover:text-[#71CD14] duration-300 hover:translate-y-1 hidden lg:block"  href="{{routes.account_register_url}}">Register</a> {% endcomment %}
               {% endif %}
             {% endif %}
