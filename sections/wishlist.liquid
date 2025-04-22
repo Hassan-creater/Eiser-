@@ -59,7 +59,7 @@ class Wishlist {
           }
         </a>
         <div class="w-[90%] p-[0.5em] bg-[rgba(113,205,20,0.55)] absolute bottom-0 flex justify-evenly items-center translate-y-[5em] group-hover:-translate-y-[0em] duration-500">
-          <div class="flex p-[0.6em] justify-center items-center rounded-full bg-white hover:bg-green-500 hover:text-white duration-300">
+          <div x-on:click=" quick = true" class="quick_view flex p-[0.6em] justify-center items-center rounded-full bg-white hover:bg-green-500 hover:text-white duration-300">
             <i class="fa-solid fa-eye text-[1em]"></i>
           </div>
           <div data-product-handle="${product.handle}" class="wishlist flex p-[0.6em] justify-center items-center rounded-full bg-white hover:bg-green-500 text-red-400 hover:text-red-500 duration-300">
@@ -78,7 +78,7 @@ class Wishlist {
       <div class="w-full h-[99px] border-[1px] border-slate-300 p-[1.5em] flex flex-col justify-center gap-[0.5em]">
         <p class="text-[14px] roboto group-hover:text-green-500 duration-300">${product.title}</p>
         <div class="w-full flex gap-[1.3em] items-center">
-          <p class="text-[20px] roboto">${product.price}</p>
+          <p class="text-[20px] roboto">Rs: ${(product.price/100).toFixed(2)}</p>
         </div>
       </div>
     `;

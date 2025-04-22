@@ -43,7 +43,7 @@
         <div class=" relative">
           <div class="w-full h-[35em]  relative flex gap-2 overflow-x-hidden  ">
 
-            <div class=" h-full flex gap-2 relative  frame duration-500 ">
+            <div class="Frame h-full flex gap-2 relative  frame duration-500 ">
               {% for media in product.media %}
                 <div  class="w-[35em] h-full">
                     {% render 'product-media', media : media %}
@@ -414,6 +414,8 @@
         
     
         getframeImages(){
+         
+          
           const allImg = document.querySelectorAll(".images")
     
           const whole = document.querySelector('.frame'); 
