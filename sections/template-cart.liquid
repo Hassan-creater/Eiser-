@@ -3,7 +3,7 @@
     <p class="text-[12.5px] text-slate-600 roboto">Very us move be blessed multiply night</p>
 </div>
 {% if cart.item_count > 0 %}
-    <div class="px-[5em] py-[2em]">
+    <div class="cart px-[5em] py-[2em]">
         {% comment %} <div class="max-w-6xl flex flex-col my-10 mx-auto">
             <div class="flex items-end justify-between my-5">
                 <h1 class="text-3xl">Your cart</h1>
@@ -22,7 +22,7 @@
                     </thead>
                     <tbody>
                         {% for item in cart.items %}
-                            <tr class="table-row border-b-[1px] border-slate-400">
+                            <tr data-line="{{ forloop.index }}" class="cart-item border-b-[1px] border-slate-400">
                                 <td class=" py-[2em] flex items-center gap-[4em]">
                                     <a href="{{ item.url }}">
                                         {% if item.image %}
@@ -36,7 +36,9 @@
                                     <div >
 
                                        <P>{{ item.product.title }}</P>
-                                        <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity=0" class="text-sm font-medium text-red-500 my-1">remove</a>
+                                        <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity=0"
+                                           data-line="{{ forloop.index }}"
+                                         class=" cart-remove text-sm font-medium text-red-500 my-1">remove</a>
                                          
                                      
                                     </div>
@@ -55,7 +57,8 @@
                                 <td class="py-4 px-2">
                                     <input type="number" name="updates[]" value="{{ item.quantity }}" min="1" id="updates_{{ forloop.index }}" class="cart_input w-20 border p-2">
                                 </td>
-                                <td class="py-4 px-2 text-[14px] font-bold">
+                                <td  class="
+                                total_price py-4 px-2 text-[14px] font-bold">
                                     {{ item.original_line_price | money }}
                                 </td>
                             </tr>
@@ -94,7 +97,7 @@
                      <div class="w-[40%] p-[0.1em]  flex justify-evenly">
                         <h1>SUBTOTAL</h1>
                         <p>:</p>
-                        <p class=" font-bold total_price" >{{ cart.original_total_price |  money }}</p>
+                        <p class=" font-bold orignal_total_price" >{{ cart.original_total_price |  money }}</p>
 
                      </div>
                     
@@ -106,13 +109,16 @@
         </div>
     </div>
 {% else %}
-    <div class="max-w-6xl h-60 my-4 mx-auto flex items-center justify-center">
+
+
+    <div class="max-w-6xl continue h-60 my-4 mx-auto  items-center justify-center ">
         <div class="text-center">
             <h1 class="text-3xl my-4">Your cart is empty</h1>
             <div class="my-4 py-4"><a href="{{ routes.all_products_collection_url }}" class="border border-green-400 cursor-pointer duration-300 text-white bg-green-400 hover:bg-transparent hover:text-green-400 rounded-sm px-8 py-3">Continue shopping</a></div>
         </div>
     </div>
 {% endif %}
+
 
 
 
@@ -204,10 +210,74 @@ document.addEventListener('DOMContentLoaded', function() {
   const coupon = new CouponCode();
 });
 
-
-
-
 </script>
+
+<script>
+(function() {
+ 
+  const moneyFormat = {{ shop.money_format | json }};
+
+  // Initialize once DOM is ready
+  document.addEventListener('DOMContentLoaded', initCartAjax);
+
+  function initCartAjax() {
+    // Delegate clicks on all current & future “.cart-remove” links
+    document.body.addEventListener('click', function(evt) {
+      const btn = evt.target.closest('.cart-remove');
+      if (!btn) return;
+      evt.preventDefault();
+      const line = btn.dataset.line;
+      if (!line) return;
+      removeCartLine(line);
+    });
+  }
+
+  async function removeCartLine(line) {
+    try {
+      // Shopify’s AJAX endpoint for changing a single line
+      const url = `{{ routes.cart_change_url }}?line=${line}&quantity=0`;
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' }
+      });
+      if (!res.ok) throw new Error('Network response was not ok');
+      const cart = await res.json();
+      updateCartUI(line, cart);
+    } catch (err) {
+      console.error('Failed to remove item from cart:', err);
+    }
+  }
+
+  function updateCartUI(line, cart) {
+    // 1) Remove the <tr> for that line
+    const row = document.querySelector(`.cart-item[data-line="${line}"]`);
+    if (row) row.remove();
+
+    const count = document.querySelector("#cart-count");
+    count.textContent = cart.item_count;
+    
+    
+
+    // 2) Update the subtotal
+    const totalEl = document.querySelector('.orignal_total_price');
+     totalEl.textContent =`Rs: ${(cart.original_total_price/100).toFixed(2)}`;
+
+    // 3) (Optional) If cart is now empty, you could show an “empty cart” message here
+    if (cart.item_count == 0) {
+      count.textContent = "";
+      document.querySelector('.cart').innerHTML = `<div class="max-w-6xl continue h-60 my-4 mx-auto  items-center justify-center ">
+        <div class="text-center">
+            <h1 class="text-3xl my-4">Your cart is empty</h1>
+            <div class="my-4 py-4"><a href="{{ routes.all_products_collection_url }}" class="border border-green-400 cursor-pointer duration-300 text-white bg-green-400 hover:bg-transparent hover:text-green-400 rounded-sm px-8 py-3">Continue shopping</a></div>
+        </div>
+    </div>`
+      
+    }
+  }
+})();
+</script>
+
+
 
 {% schema %}
 {
