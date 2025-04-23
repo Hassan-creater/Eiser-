@@ -352,172 +352,122 @@
   </div>
 
   {% comment %} {% render 'quick-view' product:product %} {% endcomment %}
-  <script>
-    class VariantSelector extends HTMLElement {
-        constructor() {
-            super();
-            this.addEventListener("change", this.onVariantChange);
-           
-            this.getframeImages();
-            this.allTabBtn();
-        }
-    
-        TabDetail(btn){
-          const details = document.querySelectorAll('.details');
-          
-          
-          
-          
-          details.forEach((det)=>{
-              
-          if (det.classList.contains(btn)) {
-              
-              if(det.classList.contains('hidden')){
-                det.classList.remove('hidden');
-              }
-    
-              
-              
-          }else{
-            det.classList.add('hidden');
-          }
-    
-        
-          
-              
-          })
-        }
-    
-        allTabBtn(){
-          const btns = document.querySelectorAll('.btn');
-        
-          btns.forEach((b)=>{
-             
-          b.classList.add('bg-white')
-    
-             b.addEventListener('click',()=>{
-              
-    
-          
-             this.TabDetail(b.textContent.trim().toLowerCase()
-             );
-               
-             })
-            
-          })
-        }
-    
-    
-    
-        
-    
-        
-    
-        getframeImages(){
-         
-          
-          const allImg = document.querySelectorAll(".images")
-    
-          const whole = document.querySelector('.frame'); 
+ <script>
+  class VariantSelector extends HTMLElement {
+  constructor() {
+    super();
+    // bind event handler to keep `this`
+    this.onVariantChange = this.onVariantChange.bind(this);
+  }
 
-       
-          
-    
-          allImg.forEach((count)=>{
-            
-           
-           
-           count.addEventListener('click',function(e){
-              whole.style.transform = `translateX(-${36 * Number(count.getAttribute('data-count'))}em)`
-           })
-    
-          })
-    
-        }
-    
-        onVariantChange() {
-            this.getSelectedOptions();
-            this.getSelectedVariant();
-    
-            if(this.currentVariant) {
-                this.updateURL();
-                this.updateFormID();
-                this.updatePrice();
-            }
-        }
-    
-        getSelectedOptions() {
-            this.options = Array.from(this.querySelectorAll('select'), (select) => select.value);
-            console.log(this.options);
-        }
-    
-        getVariantJSON() {
-            this.variantData = this.variantData || JSON.parse(this.querySelector('[type="application/json"]').textContent);
-            return this.variantData;
-        }
-    
-        getSelectedVariant() {
-            this.currentVariant = this.getVariantJSON().find(
-                (variant) => {
-                    const findings = !variant.options.map(
-                        (option, index) => {
-                            return this.options[index] === option;
-                        }
-                    ).includes(false);
-    
-                    if(findings) return variant;
-                }
-            );
-    
-            console.log(this.currentVariant);
-        }
-    
-        updateURL() {
-            if(!this.currentVariant) return;
-            window.history.replaceState({}, '', `${this.dataset.url}?variant=${this.currentVariant.id}`);
-        }
-    
-        updateFormID() {
-            const form_input = document.querySelector("#product-form").querySelector('input[name="id"]');
-            form_input.value = this.currentVariant.id;
-        }
-    
-        updatePrice() {
-            fetch(`${this.dataset.url}?variant=${this.currentVariant.id}&section_id=${this.dataset.section}`)
-            .then((response) => response.text())
-            .then((responseText) => {
-                const id = `price-${this.dataset.section}`;
-                const html = new DOMParser().parseFromString(responseText, 'text/html');
-    
-                const oldPrice = document.getElementById(id);
-                const newPrice = html.getElementById(id);
-    
-                if(oldPrice && newPrice) oldPrice.innerHTML = newPrice.innerHTML;
-            });
-        }
+  connectedCallback() {
+    // cache frequently used data attributes
+    this.url = this.dataset.url;
+    this.section = this.dataset.section;
+
+    // parse variant JSON once
+    const jsonEl = this.querySelector('script[type="application/json"]');
+    this.variantData = jsonEl && JSON.parse(jsonEl.textContent);
+
+    // initialize component behaviors
+    this.initVariantListeners();
+    this.initTabs();
+    this.initFrameSlider();
+  }
+
+  initVariantListeners() {
+    // listen for changes on all select elements inside this component
+    this.querySelectorAll('select').forEach(select => {
+      select.addEventListener('change', this.onVariantChange);
+    });
+  }
+
+  onVariantChange() {
+    // get current selected options
+    const selected = Array.from(
+      this.querySelectorAll('select'),
+      s => s.value
+    );
+
+    // find matching variant
+    const variant = this.variantData && this.variantData.find(v =>
+      v.options.every((opt, i) => selected[i] === opt)
+    );
+    if (!variant) return;
+    this.currentVariant = variant;
+
+    // update URL without reloading
+    history.replaceState({}, '', `${this.url}?variant=${variant.id}`);
+
+    // update form hidden input
+    const form = document.querySelector('#product-form');
+    const input = form && form.querySelector('input[name="id"]');
+    if (input) input.value = variant.id;
+
+    // fetch updated price HTML and swap
+    this.updatePrice(variant.id);
+  }
+
+  async updatePrice(variantId) {
+    try {
+      const res = await fetch(
+        `${this.url}?variant=${variantId}&section_id=${this.section}`
+      );
+      const text = await res.text();
+      const doc = new DOMParser().parseFromString(text, 'text/html');
+      const priceId = `price-${this.section}`;
+      const newPriceEl = doc.getElementById(priceId);
+      const oldPriceEl = document.getElementById(priceId);
+      if (newPriceEl && oldPriceEl) {
+        oldPriceEl.innerHTML = newPriceEl.innerHTML;
+      }
+    } catch (err) {
+      console.error('Failed to update price:', err);
     }
-    
-    customElements.define("variant-selector", VariantSelector);
-  </script>
+  }
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        try {
-            const swiper = new Swiper('.swiper', {
-                    direction: 'horizontal',
-    
-                    pagination: {
-                        el: '.swiper-pagination'
-                    },
-    
-                    navigation: {
-                        prevEl: '.swiper-button-prev',
-                        nextEl: '.swiper-button-next'
-                }
-            })
-        } catch(e) { console.log("SwiperJS is not defined"); }
-    })
-  </script>
+  initTabs() {
+    const buttons = document.querySelectorAll('.btn');
+    buttons.forEach(btn => {
+      btn.classList.add('bg-white');
+      btn.addEventListener('click', () => {
+        const key = btn.textContent.trim().toLowerCase();
+        document.querySelectorAll('.details').forEach(detail => {
+          detail.classList.toggle('hidden', !detail.classList.contains(key));
+        });
+      });
+    });
+  }
+
+  initFrameSlider() {
+    const frame = document.querySelector('.frame');
+    document.querySelectorAll('.images').forEach(img => {
+      img.addEventListener('click', () => {
+        const idx = Number(img.dataset.count) || 0;
+        frame.style.transform = `translateX(-${36 * idx}em)`;
+      });
+    });
+  }
+}
+
+customElements.define('variant-selector', VariantSelector);
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (typeof Swiper !== 'undefined') {
+    new Swiper('.swiper', {
+      direction: 'horizontal',
+      pagination: { el: '.swiper-pagination' },
+      navigation: {
+        prevEl: '.swiper-button-prev',
+        nextEl: '.swiper-button-next'
+      }
+    });
+  }
+});
+
+ </script>
+
+  
 
   {% schema %}
     {

@@ -647,14 +647,14 @@ function showProduct(data) {
   const container = document.querySelector('.quick_view_container');
   const mainImage = data.images?.[0] || '';
   const thumbnails = (data.images?.length >= 0)
-    ? data.images.slice(1).map((src, i) => `
-      <div class="images w-[4em] h-[4em] hover:bg-red-400 border-[1px] border-slate-400 rounded-sm overflow-hidden">
-        <img src="${src}" alt="Thumb ${i + 1}" class="w-full h-full object-cover" />
+    ? data.images.slice(0).map((src, i) => `
+      <div slide-val=""${i} class="  w-[4em] h-[4em] hover:bg-red-400 border-[1px] border-slate-400 rounded-sm overflow-hidden">
+        <img src="${src}" alt="Thumb ${i + 1}" class="quick_view_images w-full h-full object-cover" />
       </div>`).join('')
     : '';
 
   const paragraphs = data.description.split('\n');
-  console.log(paragraphs);
+
   
 
   // Build option selectors
@@ -677,9 +677,9 @@ function showProduct(data) {
 
         <!-- Media Section -->
         <div class="product--medias">
-          <div class="relative">
-            <div class="w-full h-[35em] overflow-x-hidden">
-              <img src="${mainImage}" alt="${data.title}" class="w-full h-full object-cover" />
+          <div class="relative ">
+            <div class="  w-full h-[35em] overflow-x-hidden">
+              <img src="${mainImage}" alt="${data.title}" class=" quick_view_frame w-full h-full object-cover" />
             </div>
             ${thumbnails ? `
               <div class="w-full p-[1em] bottom-[2em] right-0 absolute flex justify-end items-center gap-2">
@@ -736,6 +736,30 @@ function showProduct(data) {
     </div>
   `;
 
+
+  function slider(){
+    const images = document.querySelectorAll(".quick_view_images");
+  const frame = document.querySelector(".quick_view_frame");
+  
+  images.forEach((img)=>{
+    img.addEventListener("click",function(){
+       
+       frame.src = img.src;
+      
+      
+      
+    })
+  })
+  }
+
+  slider();
+  
+  
+
+
+
+ 
+
   // Function to update variant based on selected options
   function updateVariant() {
     const selected = data.options.map((opt, idx) => document.getElementById(`option-${idx}`).value);
@@ -772,6 +796,7 @@ function init() {
   initCartForms();
   initWishlistButtons();
   initQuickView();
+  
 }
 
 document.addEventListener('DOMContentLoaded', init);
