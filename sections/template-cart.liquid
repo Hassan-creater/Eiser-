@@ -127,7 +127,7 @@
 document.addEventListener('DOMContentLoaded', function() {
   class CouponCode {
     constructor() {
-        this.total_price = document.querySelector('.total_price');
+        this.total_price = document.querySelector('.orignal_total_price');
         this.COUPEN_CODE = "EISER8282"
 
         let code = localStorage.getItem('code');
@@ -184,7 +184,9 @@ document.addEventListener('DOMContentLoaded', function() {
       this.code.addEventListener('change', (e) => {
             this.coupen_btn.addEventListener('click',()=>{
                 let code = localStorage.getItem('code');
-                if(e.target.value == this.COUPEN_CODE && !code ){
+                
+                
+                if(e.target.value == this.COUPEN_CODE && !code  ){
                      
                     let discount = this.formatPrice() * 20/100;
                     let discount_price = this.formatPrice() - discount;
@@ -192,11 +194,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     this.total_price.textContent = `Rs.${discount_price}.00`;
                     alert("You got 20% discount");
                     localStorage.setItem('code',this.COUPEN_CODE);
+                    this.code.value = ' ';
+                    
                     
 
                     
                 }else{
-                    alert("You already applid coupen code");
+                    alert("Wrong Code");
                 }
                 
             })
