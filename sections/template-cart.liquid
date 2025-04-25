@@ -22,7 +22,7 @@
                     </thead>
                     <tbody>
                         {% for item in cart.items %}
-                            <tr data-line="{{ forloop.index }}" class="cart-item border-b-[1px] border-slate-400">
+                            <tr   data-line="{{ forloop.index }}" class="parent cart-item border-b-[1px] border-slate-400">
                                 <td class=" py-[2em] flex items-center gap-[4em]">
                                     <a href="{{ item.url }}">
                                         {% if item.image %}
@@ -49,15 +49,12 @@
                                     <p>{{ item.original_price |  money }}</p>
                                     
                                 </td>
-                                {% comment %} <td class="py-4 px-2 flex flex-col justify-center">
-                                    <a href="{{ item.url }}" class="my-1">{{ item.product.title | truncatewords: 5 }}</a>
-                                    {% comment %} <span class="text-sm text-gray-500 my-1">{{ item.variant.title }}</span>
-                                    <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity=0" class="text-sm font-medium text-red-500 my-1">remove</a> {% endcomment %}
-                                </td> {% endcomment %}
+
                                 <td class="py-4 px-2">
-                                    <input type="number" name="updates[]" value="{{ item.quantity }}" min="1" id="updates_{{ forloop.index }}" class="cart_input w-20 border p-2">
+                                    <input type="number"    name="updates[]"  data-line-key="{{ item.key }}" value="{{ item.quantity }}"  data-line-quantity  data-id="{{ item.id }}"   min="1" id="updates_{{ forloop.index }}" class="cart-item-quantity w-20 border p-2">
                                 </td>
-                                <td  class="
+
+                                <td id="{{ item.id }}" data-line-total class=" 
                                 total_price py-4 px-2 text-[14px] font-bold">
                                     {{ item.original_line_price | money }}
                                 </td>
@@ -97,7 +94,7 @@
                      <div class="w-[40%] p-[0.1em]  flex justify-evenly">
                         <h1>SUBTOTAL</h1>
                         <p>:</p>
-                        <p class=" font-bold orignal_total_price" >{{ cart.original_total_price |  money }}</p>
+                        <p data-cart-total class=" font-bold orignal_total_price" >{{ cart.original_total_price |  money }}</p>
 
                      </div>
                     
@@ -123,6 +120,124 @@
 
 
 <script>
+class CartUpdater {
+  constructor() {
+    this.quantityInputs = document.querySelectorAll('[data-line-quantity]');
+    this.initEventListeners();
+  }
+
+  initEventListeners() {
+    this.quantityInputs.forEach(input => {
+      input.addEventListener('change', (event) => this.handleQuantityChange(event));
+    });
+  }
+
+  handleQuantityChange(event) {
+    const input = event.target;
+    const id = event.target.getAttribute('data-id');   
+    const newQuantity = parseInt(input.value, 10);
+    const lineKey = input.dataset.lineKey;
+    
+    
+
+    if (newQuantity < 1 || isNaN(newQuantity)) {
+      input.value = input.dataset.oldValue;
+      return;
+    }
+
+    this.updateCart(lineKey, newQuantity,id);
+  }
+
+
+   
+  async updateCart(lineKey, quantity,id) {
+    try {
+      const response = await fetch('/cart/update.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ updates: { [lineKey]: quantity } })
+      });
+
+      const cartData = await response.json();
+      this.updateDOM(cartData,id);
+  
+    } catch (error) {
+      console.error('Cart update error:', error);
+      this.resetInputValues();
+    }
+  }
+
+  updateDOM(cartData,id) {
+    // Update prices and totals
+    
+   let count = document.querySelector("#cart-count");
+   count.textContent = cartData.item_count;
+   
+    
+  cartData.items.forEach((item)=>{
+    if(item.id == id){
+        
+           
+    let price = document.getElementById(`${id}`);
+    price.textContent = `Rs ${(item.original_line_price / 100 ).toFixed(2)}`;
+    
+    }
+  })
+  
+   
+    
+
+
+    // Update cart total
+    const cartTotalElement = document.querySelector('[data-cart-total]');
+    if (cartTotalElement) {
+      cartTotalElement.textContent = this.formatMoney(cartData.original_total_price );
+    }
+
+    // Remove deleted items
+    this.cleanupRemovedItems(cartData.items);
+  }
+
+
+
+  cleanupRemovedItems(updatedItems) {
+    const existingItems = document.querySelectorAll('[data-line-item]');
+    const activeKeys = updatedItems.map(item => item.key);
+
+    existingItems.forEach(item => {
+      if (!activeKeys.includes(item.dataset.lineItem)) {
+        item.remove();
+      }
+    });
+  }
+
+  formatMoney(cents) {
+    // Use Shopify's format if available, otherwise fallback
+    return (Shopify?.formatMoney?.(cents) || `Rs ${(cents/100).toFixed(2)}`);
+  }
+
+  resetInputValues() {
+    this.quantityInputs.forEach(input => {
+      input.value = input.dataset.oldValue;
+    });
+  }
+}
+
+// Initialize when ready
+document.addEventListener('DOMContentLoaded', () => new CartUpdater());
+
+// Single init on DOM ready
+document.addEventListener('DOMContentLoaded', () => {
+  new CartUpdater();
+});
+
+// Initialize updater once when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+  new CartUpdater();
+});
+
+
+
    // Wait until the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', function() {
   class CouponCode {
@@ -149,6 +264,19 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       this.attachEvent();
       this.checkout();
+      this.getUpdateValue();
+
+    }
+
+
+    getUpdateValue(){
+        let input = document.querySelectorAll(".cart_input_update");
+        input.forEach((inp)=>{
+            inp.addEventListener('change',function(){
+                console.log(inp.value);
+                
+            })
+        })
     }
 
 
@@ -214,72 +342,77 @@ document.addEventListener('DOMContentLoaded', function() {
   const coupon = new CouponCode();
 });
 
+
 </script>
+
 
 <script>
+    
 (function() {
  
-  const moneyFormat = {{ shop.money_format | json }};
+ const moneyFormat = {{ shop.money_format | json }};
 
-  // Initialize once DOM is ready
-  document.addEventListener('DOMContentLoaded', initCartAjax);
+ // Initialize once DOM is ready
+ document.addEventListener('DOMContentLoaded', initCartAjax);
 
-  function initCartAjax() {
-    // Delegate clicks on all current & future “.cart-remove” links
-    document.body.addEventListener('click', function(evt) {
-      const btn = evt.target.closest('.cart-remove');
-      if (!btn) return;
-      evt.preventDefault();
-      const line = btn.dataset.line;
-      if (!line) return;
-      removeCartLine(line);
-    });
-  }
+ function initCartAjax() {
+   // Delegate clicks on all current & future “.cart-remove” links
+   document.body.addEventListener('click', function(evt) {
+     const btn = evt.target.closest('.cart-remove');
+     if (!btn) return;
+     evt.preventDefault();
+     const line = btn.dataset.line;
+     if (!line) return;
+     removeCartLine(line);
+   });
+ }
 
-  async function removeCartLine(line) {
-    try {
-      // Shopify’s AJAX endpoint for changing a single line
-      const url = `{{ routes.cart_change_url }}?line=${line}&quantity=0`;
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: { 'Accept': 'application/json' }
-      });
-      if (!res.ok) throw new Error('Network response was not ok');
-      const cart = await res.json();
-      updateCartUI(line, cart);
-    } catch (err) {
-      console.error('Failed to remove item from cart:', err);
-    }
-  }
+ async function removeCartLine(line) {
+   try {
+     // Shopify’s AJAX endpoint for changing a single line
+     const url = `{{ routes.cart_change_url }}?line=${line}&quantity=0`;
+     const res = await fetch(url, {
+       method: 'POST',
+       headers: { 'Accept': 'application/json' }
+     });
+     if (!res.ok) throw new Error('Network response was not ok');
+     const cart = await res.json();
+     updateCartUI(line, cart);
+   } catch (err) {
+     console.error('Failed to remove item from cart:', err);
+   }
+ }
 
-  function updateCartUI(line, cart) {
-    // 1) Remove the <tr> for that line
-    const row = document.querySelector(`.cart-item[data-line="${line}"]`);
-    if (row) row.remove();
+ function updateCartUI(line, cart) {
+   // 1) Remove the <tr> for that line
+   const row = document.querySelector(`.cart-item[data-line="${line}"]`);
+   if (row) row.remove();
 
-    const count = document.querySelector("#cart-count");
-    count.textContent = cart.item_count;
-    
-    
+   const count = document.querySelector("#cart-count");
+   count.textContent = cart.item_count;
+   
+   
 
-    // 2) Update the subtotal
-    const totalEl = document.querySelector('.orignal_total_price');
-     totalEl.textContent =`Rs: ${(cart.original_total_price/100).toFixed(2)}`;
+   // 2) Update the subtotal
+   const totalEl = document.querySelector('.orignal_total_price');
+    totalEl.textContent =`Rs: ${(cart.original_total_price/100).toFixed(2)}`;
 
-    // 3) (Optional) If cart is now empty, you could show an “empty cart” message here
-    if (cart.item_count == 0) {
-      count.textContent = "";
-      document.querySelector('.cart').innerHTML = `<div class="max-w-6xl continue h-60 my-4 mx-auto  items-center justify-center ">
-        <div class="text-center">
-            <h1 class="text-3xl my-4">Your cart is empty</h1>
-            <div class="my-4 py-4"><a href="{{ routes.all_products_collection_url }}" class="border border-green-400 cursor-pointer duration-300 text-white bg-green-400 hover:bg-transparent hover:text-green-400 rounded-sm px-8 py-3">Continue shopping</a></div>
-        </div>
-    </div>`
-      
-    }
-  }
+   // 3) (Optional) If cart is now empty, you could show an “empty cart” message here
+   if (cart.item_count == 0) {
+     count.textContent = "";
+     document.querySelector('.cart').innerHTML = `<div class="max-w-6xl continue h-60 my-4 mx-auto  items-center justify-center ">
+       <div class="text-center">
+           <h1 class="text-3xl my-4">Your cart is empty</h1>
+           <div class="my-4 py-4"><a href="{{ routes.all_products_collection_url }}" class="border border-green-400 cursor-pointer duration-300 text-white bg-green-400 hover:bg-transparent hover:text-green-400 rounded-sm px-8 py-3">Continue shopping</a></div>
+       </div>
+   </div>`
+     
+   }
+ }
 })();
 </script>
+
+
 
 
 
