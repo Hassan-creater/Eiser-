@@ -29,10 +29,12 @@
   {% section 'header' %}
  {% endunless %}
 
-  <main x-data="{ quick_view : false}"  role="main">
+  <main x-data="{ quick_view : false }"  role="main">
     {{ content_for_layout }}
 
     {% render 'quick-view' %}
+
+    {% render 'cart-drawer' , cartObj : cart %}
   </main>
 
   

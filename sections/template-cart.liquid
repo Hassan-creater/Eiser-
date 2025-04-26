@@ -1,3 +1,6 @@
+
+<script src="{{ 'cart_update.js' |  asset_url }}" defer></script>
+
 <div class="w-full bg-[#F6F6F6] py-[4em] px-[5em] flex flex-col gap-3">
     <h1 class=" text-3xl roboto font-medium">{{ section.settings.title }}</h1>
     <p class="text-[12.5px] text-slate-600 roboto">Very us move be blessed multiply night</p>
@@ -70,14 +73,12 @@
                             <textarea name="note" id="cart_notes" class="w-full md:max-w-lg resize-none border h-20"></textarea>
                         </div>
                     </div> {% endcomment %}
-                    <div class="w-full  my-4 md:w-full flex justify-between items-center mt-[2em] py-[1em]">
+                    <div class="w-full bg-red-400  my-4 md:w-full  mt-[2em] py-[1em]">
                         {% comment %} <h3 class="text-xl">Subtotal: {{ cart.total_price | money }}</h3> {% endcomment %}
 
-                        <div class="w-[10em]">
-                            <button type="submit" name="update" class="w-full py-[0.55em]  rounded-sm  bg-[#F6F6F6] text-black font-medium hover:bg-lime-500 hover:text-white duration-300   cursor-pointer text-[14px]">UPDATE CART</button>
-                        </div>
+                       
 
-                        <div  class="w-[50%]  flex justify-evenly">
+                        <div  class="w-[50%]  flex gap-[1em] ">
                             <input type="text" placeholder="Enter coupen code"
                             class="w-1/2 code p-[0.5em] border-[1.5px] border-lime-500 rounded-sm focus:outline-none ">
                             
@@ -105,6 +106,8 @@
             </form>
         </div>
     </div>
+
+   
 {% else %}
 
 
@@ -343,10 +346,10 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-</script>
+</script> 
 
 
-<script>
+ <script>
     
 (function() {
  
@@ -410,7 +413,7 @@ document.addEventListener('DOMContentLoaded', function() {
    }
  }
 })();
-</script>
+</script> 
 
 
 
