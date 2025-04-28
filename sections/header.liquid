@@ -16,7 +16,8 @@
 <header x-cloak x-data="{ search : false }" class="w-full relative " 
 x-cloak>
     <!-- Top Menu -->
-    <div class="lg:block hidden  bg-gray-100 px-[5em] py-2 border-b border-gray-200">
+     {% if section.settings.topBar %}
+      <div class="lg:block hidden  bg-gray-100 px-[5em] py-2 border-b border-gray-200">
       <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
         <div class="text-[12px] roboto text-slate-500 mb-2 md:mb-0 flex  gap-4">
           <span class="mr-4 text-[11px] ">PHONE: +01 256 25 235</span>
@@ -32,6 +33,8 @@ x-cloak>
         </div>
       </div>
     </div>
+     {% endif %}
+    
     
     <!-- Main Menu -->
     <div  x-show=" !search " class="py-4 shadow-sm sm:px-[4.5em]">
@@ -127,12 +130,15 @@ x-cloak>
              </div>
 
 
-             <div class=" relative">
-              <a  class="whitespace-nowrap text-base text-gray-500 hover:text-green-400" href="/pages/wishlist">{% render 'icon-wishlist' %}</a>
-
-
-              <p id="wish_count" class="wish_count absolute -top-[1em] -right-[0.3em] px-[0.2em] rounded-full bg-green-400  ">  </p>
-             </div>
+             {% if section.settings.wishlist %}
+              
+              <div class=" relative">
+               <a  class="whitespace-nowrap text-base text-gray-500 hover:text-green-400" href="/pages/wishlist">{% render 'icon-wishlist' %}</a>
+ 
+ 
+               <p id="wish_count" class="wish_count absolute -top-[1em] -right-[0.3em] px-[0.2em] rounded-full bg-green-400  ">  </p>
+              </div>
+             {% endif %}
 
              
            
@@ -210,6 +216,7 @@ x-cloak>
               <div class="p-[0.5em] bg-slate-400 hover:bg-green-400 duration-300">
                 {% render 'icon-search' %}
               </div>
+             
               <div class="p-[0.5em] bg-slate-400 hover:bg-green-400 duration-300">
                 {% render 'icon-shopping-bag' %}
               </div>
@@ -327,6 +334,18 @@ x-cloak>
         "id": "menu",
         "default": "main-menu",
         "label": "Heading Navigation Menu"
+      },
+      {
+        "type": "checkbox",
+        "id": "topBar",
+        "label": "Top Bar",
+        "default" : true
+      },
+      {
+        "type": "checkbox",
+        "id": "wishlist",
+        "label": "Wishlist",
+        "default" : true
       }
     ]
   }
