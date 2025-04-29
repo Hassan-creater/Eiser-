@@ -1,7 +1,9 @@
-<div class="flex flex-col items-center my-8 mb-[5em]">
-    {% if section.settings.title != blank %}
-        <h1 class="text-3xl font-medium my-8 md:my-16">{{ section.settings.title }}</h1>
-    {% endif %}
+<div class="flex flex-col items-center mb-[5em]">
+    <div class="w-full  mb-[5em]">
+        {% render 'page' , title : section.settings.title %}
+    </div>
+   
+    
     
     {% form 'contact' %}
 
@@ -67,7 +69,8 @@
         {
             "type": "text",
             "id": "title",
-            "label": "Title"
+            "label": "Title",
+            "default" : "Contact"
         }
     ],
     "presets": [

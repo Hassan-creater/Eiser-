@@ -3,10 +3,11 @@
   itemscope
   itemtype="http://schema.org/BlogPosting">
 
-  <div class="w-full bg-[#F6F6F6] py-[4.7em] px-[5em] flex flex-col gap-3 mb-[3em]">
+  {% comment %} <div class="w-full bg-[#F6F6F6] py-[4.7em] px-[5em] flex flex-col gap-3 mb-[3em]">
     <h1 class=" text-3xl roboto font-medium">{{ section.settings.blog_details }}</h1>
     <p class="text-[12.5px] text-slate-600 roboto">Very us move be blessed multiply night</p>
-  </div>
+  </div> {% endcomment %}
+  {% render 'page' , title : section.settings.blog_details %}
   <div class="w-full flex justify-between px-[5em] mb-[7em]">
     {% comment %} ARTICLE SECTION {% endcomment %}
     <div class="w-[65%] py-2   flex flex-col gap-[1.5em]">

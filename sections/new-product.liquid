@@ -46,7 +46,7 @@
     
       {% for items in collections.all.products limit: 5 %}
         {% if forloop.index > 1 %}
-          <div class="w-[48%] h-[40%] ">
+          <div class="w-[90%] sm:w-[45%] xl:w-[48%] h-[40%] ">
             <div class="w-full h-[14.5em] bg-[#F0F2F1] relative flex justify-center items-center overflow-hidden group">
 
             <a href="{{ items.url }}" class="w-full h-[15em] bg-[#F0F2F1] relative flex justify-center items-center overflow-hidden group">

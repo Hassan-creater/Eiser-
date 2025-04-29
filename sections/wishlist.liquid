@@ -1,7 +1,9 @@
-<div class=" max-w-[1440px] mx-auto w-full  p-[1em] py-[3em] px-[5em]">
-    <h1 class="text-center text-3xl font-semibold ">{{ section.settings.title }}</h1>
+<div class=" max-w-[1440px] mx-auto w-full  ">
+  {% render  'page' , title : section.settings.title %}
     
-    <div id="list_container" class="w-full p-[0.5em]  mt-[3em] flex flex-wrap gap-4 ">
+    
+    <div id="list_container" class="w-full p-[0.5em] px-[5em] py-[2em]  mt-[3em] flex flex-wrap gap-4 ">
+      
     </div>
 
 </div>
@@ -20,7 +22,8 @@ class Wishlist {
     let list = this.getList();
     
     if(list.length == 0){
-      this.listContainer.innerHTML = `<p class="text-2xl text-center w-full mt-[4em] mb-[4em]">Your list is empty<p>` 
+      this.listContainer.innerHTML = `<div class="w-full flex flex-col items-center gap-3 mb-[5em]"><p class="text-2xl text-center w-full mt-[4em] ">Your list is empty<p>
+      <a href="/collections/all" class="text-[1.1em] text-center w-full border-[1px] border-lime-500 px-[1em] py-[0.4em] rounded-sm bg-lime-500 hover:text-lime-500 text-white hover:bg-transparent duration-300  mb-[5em]">Continue Shopping<a></div>` 
     }
     
   }

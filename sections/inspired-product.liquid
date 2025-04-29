@@ -1,13 +1,13 @@
-<div class="w-full max-w-[1440px] mx-auto p-2  flex justify-center items-center flex-col lg:px-[5em] mb-[5em]">
+<div class="w-full  p-2  flex justify-center items-center flex-col lg:px-[5em] mb-[5em]">
     <h1 class="text-center text-[24px] font-bold  py-[0.5em] mb-[0.5em] px-[0.5em] border-b-[1px] border-slate-300">{{ section.settings.title }}</h1>
 
     <p class="text-[14px] text-slate-500 mb-[2em]">Bring called seed first of third give itself now ment</p>
 
 
-    <div class="w-full p-2 min-h-[45em]   lg:h-[45em] flex flex-wrap  justify-between items-center sm:gap-[1em] md:gap-[2em] lg:gap-0">
+    <div class="w-full p-2 min-h-[45em]   lg:h-[45em] flex flex-wrap  justify-between items-center gap-[1.2em] sm:gap-[1em] md:gap-[2em] lg:gap-4">
         {% for product in collections.all.products reversed limit: 8 %}
             
-            <div class=" w-full sm:w-[48%]  md:w-[24%] md:h-[47%]  ">
+            <div class=" w-full sm:w-[48%]  md:w-[46%] md:h-[47%] lg:w-[23.5%]  ">
         <div  class="w-full h-[16em] bg-[#F0F2F1] relative flex justify-center items-center overflow-hidden group">
           {% if product.featured_image %}
             <a class="w-full h-full bg-[#F0F2F1]  flex justify-center items-center overflow-hidden group" href="{{ product.url }}">

@@ -1,8 +1,5 @@
 <div class=" max-w-[1440px] w-full mx-auto  ">
-  <div class="w-full bg-[#F6F6F6] py-[4em] px-[5em] flex flex-col gap-3">
-    <h1 class=" text-3xl roboto font-medium">{{ section.settings.title }}</h1>
-    <p class="text-[12.5px] text-slate-600 roboto">Very us move be blessed multiply night</p>
-  </div>
+  {% render 'page' , title: section.settings.title %}
 
   <div class="w-full  mb-[5em] mt-[9em]  flex gap-[1em] px-[4em]">
     {% comment %} FILTERS {% endcomment %}

@@ -3,14 +3,14 @@
 
     <p class="text-[14px] text-slate-500 mb-[4em]">Bring called seed first of third give itself now ment</p>
 
-    <div class="w-full min-h-[31.5em] lg:h-[31.5em]  flex justify-between items- flex-wrap lg:flex-nowrap gap-4 lg:gap-0">
+    <div class="w-full min-h-[31.5em] lg:h-[31.5em]  flex justify-between md:gap-10 items- flex-wrap lg:flex-nowrap gap-4 lg:gap-0">
         {% liquid
             
         assign blog_latest = blogs['tech'] 
         %}
         {% for latest_blog in blog_latest.articles limit : 3   %}
             
-            <a href="{{ latest_blog.url }}" class="w-full  md:w-[47%] lg:w-[32%] h-full  group border-[0.5px] border-slate-100">
+            <a href="{{ latest_blog.url }}" class="w-full  md:w-[100%] lg:w-[32%] h-full  group border-[0.5px] border-slate-100">
                 <div class="w-full  flex justify-center items-center h-[50%] ">
                      {% if latest_blog.image %}
                         <img src="{{ latest_blog.image |  img_url: 'large' }}" alt="{{ latest_blog.image.alt }}" width="" height="" class="object-center object-cover w-full h-full">

@@ -31,10 +31,11 @@
 
 <div class="max-w-[1440px] mx-auto w-full" x-data="{ productModalOpen: false }">
   {% comment %} TOP BAR {% endcomment %}
-  <div class="w-full bg-[#F6F6F6] py-[4em] px-[5em] flex flex-col gap-3 mb-[5em]">
+  {% comment %} <div class="w-full bg-[#F6F6F6] py-[4em] px-[5em] flex flex-col gap-3 mb-[5em]">
     <h1 class=" text-3xl roboto font-medium">{{ section.settings.title }}</h1>
     <p class="text-[12.5px] text-slate-600 roboto">Very us move be blessed multiply night</p>
-  </div>
+  </div> {% endcomment %}
+  {% render 'page' , title : section.settings.title %}
 
 
   <div class="  w-full px-[5em] mx-auto my-8">

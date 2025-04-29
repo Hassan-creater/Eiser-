@@ -9,16 +9,13 @@
  */
 {
   "sections": {
-    "template": {
-      "type": "template-page",
-      "settings": {}
-    },
+    
     "contact-form":{
       "type" : "contact-form"
     }
   },
   "order": [
-    "template",
+  
     "contact-form"
   ]
 }
