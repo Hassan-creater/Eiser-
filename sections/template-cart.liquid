@@ -1,140 +1,162 @@
-
 <script src="{{ 'cart_update.js' |  asset_url }}" defer></script>
 
-<div class="w-full bg-[#F6F6F6] py-[4em] px-[5em] flex flex-col gap-3">
-    <h1 class=" text-3xl roboto font-medium">{{ section.settings.title }}</h1>
-    <p class="text-[12.5px] text-slate-600 roboto">Very us move be blessed multiply night</p>
-</div>
+{% comment %} <div class="w-full bg-[#F6F6F6] py-[4em] px-[5em] flex flex-col gap-3">
+        <h1 class=" text-3xl roboto font-medium">{{ section.settings.title }}</h1>
+        <p class="text-[12.5px] text-slate-600 roboto">Very us move be blessed multiply night</p>
+</div> {% endcomment %}
+{% render 'page'
+  , title: section.settings.title %}
 {% if cart.item_count > 0 %}
-    <div class="cart px-[5em] py-[2em]">
-        {% comment %} <div class="max-w-6xl flex flex-col my-10 mx-auto">
-            <div class="flex items-end justify-between my-5">
-                <h1 class="text-3xl">Your cart</h1>
-                <a href="{{ routes.all_products_collection_url }}" class="text-blue-600 hover:text-blue-800 font-medium underline">Continue shopping</a>
+  <div class="cart px-[0.5em] md:px-[1em] lg:px-[5em] py-[2em]">
+
+    <div class=" sm:max-w-6xl flex flex-col my-10 mx-auto">
+      <form
+        action="{{ routes.cart_url }}"
+        method="POST"
+        novalidate>
+        <table class="table-auto divide-y divide-gray-200 my-4 w-full">
+          <thead>
+            <th class="px-6 py-3 text-left sm:text-sm text-[12px] whitespace-nowrap font-medium text-gray-500">Product</th>
+            <th class=" hidden sm:table-cell  px-6 py-3 text-left sm:text-sm text-[12px] whitespace-nowrap font-medium text-gray-500">Price</th>
+            <th class="px-6 py-3 text-left sm:text-sm text-[12px] whitespace-nowrap font-medium text-gray-500 hidden sm:table-cell">Quantity</th>
+            <th class="px-6 py-3 text-left sm:text-sm text-[12px] whitespace-nowrap font-medium text-gray-500">Total Price</th>
+          </thead>
+          <tbody>
+            
+            {% for item in cart.items %}
+             
+              <tr data-line="{{ forloop.index }}" class="parent cart-item border-b-[1px] border-slate-400   ">
+                <td class=" py-[1em] sm:py-[2em] flex items-center gap-[1em] md:gap-[4em]">
+                  <a href="{{ item.url }}">
+                    {% if item.image %}
+                      <img
+                        src="{{ item.image | img_url: 'small' }}"
+                        alt="{{ item.title | escape }}"
+                        class="lg:w-[8.5em] w-[5em]  sm:w-[6em] sm:h-[6em] h-[5em] object-cover border-[0.5px] 
+                                            border-slate-400"
+                        width=""
+                        height="">
+                    {% else %}
+                      {{ 'product-1' | placeholder_svg_tag: 'w-20 h-20 object-cover border' }}
+                    {% endif %}
+                  </a>
+
+                  <div>
+
+
+                    <P class="sm:block text-[0.6em] sm:text-[0.8em] roboto md:text-[1.1em]">{{ item.product.title }}</P>
+                    <a
+                      href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity=0"
+                      data-line="{{ forloop.index }}"
+                      class=" cart-remove text-sm font-medium text-red-500 my-1 md:text-[1.1em]  sm:text-[0.8em] text-[0.6em]">remove</a>
+
+
+                  </div>
+
+                </td>
+                
+                <td class="px-[1em] hidden sm:table-cell sm:font-bold md:text-[14px] text-[10px] sm:text-[12px]  ">
+                  <p>{{ item.original_price | money }}</p>
+                </td>
+
+                <td class=" py-[0.5em] sm:py-4 px-2  flex
+                 justify-start items-center sm:table-cell ">
+
+                  <input
+                    type="number"
+                    name="updates[]"
+                    data-line-key="{{ item.key }}"
+                    value="{{ item.quantity }}"
+                    data-line-quantity
+                    data-id="{{ item.id }}"
+                    min="1"
+                    id="updates_{{ forloop.index }}"
+                    class=" cart-item-quantity sm:w-20 w-24   border p-[0.5em] md:p-2">
+
+
+                </td>
+
+                <td
+                  id="{{ item.id }}"
+                  data-line-total
+                  class=" 
+                                total_price  sm:py-4 sm:px-2 text-[14px]  font-bold  text-center ">
+
+                  <p>{{ item.original_line_price | money }}</p>
+
+
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+        <div class="w-full ">
+
+          <div class="w-full   my-4 md:w-full  mt-[2em] py-[1em]">
+
+
+            <div class="w-full  lg:w-[50%]  flex gap-[1em] ">
+              <input
+                type="text"
+                placeholder="Enter coupen code"
+                class="w-[70%] sm:w-1/2 code p-[0.5em] border-[1.5px] border-lime-500 rounded-sm focus:outline-none ">
+
+
+              <p class=" coupen_btn w-[30%] sm:w-[20%] py-[0.55em]  rounded-sm  hover:bg-transparent border border-lime-500  font-medium bg-lime-500 hover:text-lime-500 text-white duration-300 flex justify-center items-center  cursor-pointer text-[14px]">Apply Code</p>
             </div>
-        </div> {% endcomment %}
+          </div>
 
-        <div class="max-w-6xl flex flex-col my-10 mx-auto">
-            <form action="{{ routes.cart_url }}" method="POST" novalidate>
-                <table class="table-auto divide-y divide-gray-200 my-4 w-full">
-                    <thead>
-                        <th class="px-6 py-3 text-left text-sm font-medium text-gray-500">Product</th>
-                        <th class="px-6 py-3 text-left text-sm font-medium text-gray-500">Price</th>
-                        <th class="px-6 py-3 text-left text-sm font-medium text-gray-500">Quantity</th>
-                        <th class="px-6 py-3 text-left text-sm font-medium text-gray-500">Total Price</th>
-                    </thead>
-                    <tbody>
-                        {% for item in cart.items %}
-                            <tr   data-line="{{ forloop.index }}" class="parent cart-item border-b-[1px] border-slate-400">
-                                <td class=" py-[2em] flex items-center gap-[4em]">
-                                    <a href="{{ item.url }}">
-                                        {% if item.image %}
-                                            <img src="{{ item.image | img_url: 'small' }}" alt="{{ item.title | escape }}" class="w-[8.5em] h-[6em] object-cover border-[0.5px] 
-                                            border-slate-400" width="" height="">
-                                        {% else %}
-                                            {{ 'product-1' | placeholder_svg_tag: 'w-20 h-20 object-cover border' }}
-                                        {% endif %}
-                                    </a>
-                                     
-                                    <div >
+          <div class="w-full  my-4 md:w-full flex sm:justify-between gap-4 sm:gap-0 items-center mt-[2em] py-[1em]">
 
-                                       <P>{{ item.product.title }}</P>
-                                        <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity=0"
-                                           data-line="{{ forloop.index }}"
-                                         class=" cart-remove text-sm font-medium text-red-500 my-1">remove</a>
-                                         
-                                     
-                                    </div>
-                                    
-                                </td>
+            <div class=" w-[10em]">
+              <button
+                type="submit"
+                name="checkout"
+                class=" CHECKOUT w-full py-[0.55em]  rounded-sm  hover:bg-transparent border border-lime-500  font-medium bg-lime-500 hover:text-lime-500 text-white duration-300   cursor-pointer text-[14px]">Checkout</button>
+            </div>
+            <div class="w-[45%] sm:w-[40%] p-[0.1em]  flex justify-evenly items-center">
+              <h1 class="text-[14px] sm:text-[1.1em]">SUBTOTAL</h1>
+              <p>:</p>
+              <p data-cart-total class=" font-bold orignal_total_price text-[14px] sm:text-[1.1em]">{{ cart.original_total_price | money }}</p>
 
-                                <td class=" font-bold text-[14px]  ">
-                                    <p>{{ item.original_price |  money }}</p>
-                                    
-                                </td>
-
-                                <td class="py-4 px-2">
-                                    <input type="number"    name="updates[]"  data-line-key="{{ item.key }}" value="{{ item.quantity }}"  data-line-quantity  data-id="{{ item.id }}"   min="1" id="updates_{{ forloop.index }}" class="cart-item-quantity w-20 border p-2">
-                                </td>
-
-                                <td id="{{ item.id }}" data-line-total class=" 
-                                total_price py-4 px-2 text-[14px] font-bold">
-                                    {{ item.original_line_price | money }}
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-
-                <div class="w-full ">
-                    {% comment %} <div class="w-full my-4">
-                        <div class="flex flex-col items-start">
-                            <label for="cart_notes" class="my-1">Cart notes</label>
-                            <textarea name="note" id="cart_notes" class="w-full md:max-w-lg resize-none border h-20"></textarea>
-                        </div>
-                    </div> {% endcomment %}
-                    <div class="w-full   my-4 md:w-full  mt-[2em] py-[1em]">
-                        {% comment %} <h3 class="text-xl">Subtotal: {{ cart.total_price | money }}</h3> {% endcomment %}
-
-                       
-
-                        <div  class="w-[50%]  flex gap-[1em] ">
-                            <input type="text" placeholder="Enter coupen code"
-                            class="w-1/2 code p-[0.5em] border-[1.5px] border-lime-500 rounded-sm focus:outline-none ">
-                            
-
-                            <p class=" coupen_btn w-[20%] py-[0.55em]  rounded-sm  hover:bg-transparent border border-lime-500  font-medium bg-lime-500 hover:text-lime-500 text-white duration-300 flex justify-center items-center  cursor-pointer text-[14px]">Apply Code</p>
-                        </div>
-                    </div>
-
-                    <div class="w-full  my-4 md:w-full flex justify-between items-center mt-[2em] py-[1em]">
-
-                    <div class=" w-[10em]">
-                        <button type="submit" name="checkout" class=" CHECKOUT w-full py-[0.55em]  rounded-sm  hover:bg-transparent border border-lime-500  font-medium bg-lime-500 hover:text-lime-500 text-white duration-300   cursor-pointer text-[14px]">Checkout</button>
-                    </div>
-                     <div class="w-[40%] p-[0.1em]  flex justify-evenly">
-                        <h1>SUBTOTAL</h1>
-                        <p>:</p>
-                        <p data-cart-total class=" font-bold orignal_total_price" >{{ cart.original_total_price |  money }}</p>
-
-                     </div>
-                    
+            </div>
 
 
-                </div>
-                </div>
-            </form>
+          </div>
         </div>
+      </form>
     </div>
+  </div>
 
-   
+
 {% else %}
 
 
-    <div class="max-w-6xl continue h-60 my-4 mx-auto  items-center justify-center ">
-        <div class="text-center">
-            <h1 class="text-3xl my-4">Your cart is empty</h1>
-            <div class="my-4 py-4"><a href="{{ routes.all_products_collection_url }}" class="border border-green-400 cursor-pointer duration-300 text-white bg-green-400 hover:bg-transparent hover:text-green-400 rounded-sm px-8 py-3">Continue shopping</a></div>
-        </div>
+  <div class="max-w-6xl continue h-60 my-4 mx-auto  items-center justify-center ">
+    <div class="text-center">
+      <h1 class="text-3xl my-4">Your cart is empty</h1>
+      <div class="my-4 py-4">
+        <a href="{{ routes.all_products_collection_url }}" class="border border-green-400 cursor-pointer duration-300 text-white bg-green-400 hover:bg-transparent hover:text-green-400 rounded-sm px-8 py-3">Continue shopping</a>
+      </div>
     </div>
+  </div>
 {% endif %}
 
 
-
-
 <script>
-class CartUpdater {
+  class CartUpdater {
   constructor() {
     this.quantityInputs = document.querySelectorAll('[data-line-quantity]');
     this.initEventListeners();
   }
-
+  
   initEventListeners() {
     this.quantityInputs.forEach(input => {
       input.addEventListener('change', (event) => this.handleQuantityChange(event));
     });
   }
-
+  
   handleQuantityChange(event) {
     const input = event.target;
     const id = event.target.getAttribute('data-id');   
@@ -142,16 +164,16 @@ class CartUpdater {
     const lineKey = input.dataset.lineKey;
     
     
-
+  
     if (newQuantity < 1 || isNaN(newQuantity)) {
       input.value = input.dataset.oldValue;
       return;
     }
-
+  
     this.updateCart(lineKey, newQuantity,id);
   }
-
-
+  
+  
    
   async updateCart(lineKey, quantity,id) {
     try {
@@ -160,7 +182,7 @@ class CartUpdater {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ updates: { [lineKey]: quantity } })
       });
-
+  
       const cartData = await response.json();
       this.updateDOM(cartData,id);
   
@@ -169,7 +191,7 @@ class CartUpdater {
       this.resetInputValues();
     }
   }
-
+  
   updateDOM(cartData,id) {
     // Update prices and totals
     
@@ -189,65 +211,65 @@ class CartUpdater {
   
    
     
-
-
+  
+  
     // Update cart total
     const cartTotalElement = document.querySelector('[data-cart-total]');
     if (cartTotalElement) {
       cartTotalElement.textContent = this.formatMoney(cartData.original_total_price );
     }
-
+  
     // Remove deleted items
     this.cleanupRemovedItems(cartData.items);
   }
-
-
-
+  
+  
+  
   cleanupRemovedItems(updatedItems) {
     const existingItems = document.querySelectorAll('[data-line-item]');
     const activeKeys = updatedItems.map(item => item.key);
-
+  
     existingItems.forEach(item => {
       if (!activeKeys.includes(item.dataset.lineItem)) {
         item.remove();
       }
     });
   }
-
+  
   formatMoney(cents) {
     // Use Shopify's format if available, otherwise fallback
     return (Shopify?.formatMoney?.(cents) || `Rs ${(cents/100).toFixed(2)}`);
   }
-
+  
   resetInputValues() {
     this.quantityInputs.forEach(input => {
       input.value = input.dataset.oldValue;
     });
   }
-}
-
-// Initialize when ready
-document.addEventListener('DOMContentLoaded', () => new CartUpdater());
-
-// Single init on DOM ready
-document.addEventListener('DOMContentLoaded', () => {
+  }
+  
+  // Initialize when ready
+  document.addEventListener('DOMContentLoaded', () => new CartUpdater());
+  
+  // Single init on DOM ready
+  document.addEventListener('DOMContentLoaded', () => {
   new CartUpdater();
-});
-
-// Initialize updater once when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
+  });
+  
+  // Initialize updater once when DOM is ready
+  document.addEventListener('DOMContentLoaded', () => {
   new CartUpdater();
-});
-
-
-
+  });
+  
+  
+  
    // Wait until the DOM is fully loaded
-document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function() {
   class CouponCode {
     constructor() {
         this.total_price = document.querySelector('.orignal_total_price');
         this.COUPEN_CODE = "EISER8282"
-
+  
         let code = localStorage.getItem('code');
         if(code){
             
@@ -268,10 +290,10 @@ document.addEventListener('DOMContentLoaded', function() {
       this.attachEvent();
       this.checkout();
       this.getUpdateValue();
-
+  
     }
-
-
+  
+  
     getUpdateValue(){
         let input = document.querySelectorAll(".cart_input_update");
         input.forEach((inp)=>{
@@ -281,17 +303,17 @@ document.addEventListener('DOMContentLoaded', function() {
             })
         })
     }
-
-
+  
+  
     formatPrice(){
         let price_Rs = document.querySelector('.total_price').textContent;
       let Int_price = price_Rs.replace("Rs.","").replace(",","").replace(".00","");
       let totalPrice = Number(Int_price);
-
+  
       return  totalPrice;
     }
-
-
+  
+  
     checkout(){
         let checkout_btn = document.querySelector('.CHECKOUT');
         checkout_btn.addEventListener('click',(e)=>{
@@ -299,7 +321,7 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             if(code == this.COUPEN_CODE){
                 window.location.href = '/checkout?discount=EISER8282';
-
+  
                 localStorage.removeItem('code');
             }
         })
@@ -328,7 +350,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     this.code.value = ' ';
                     
                     
-
+  
                     
                 }else{
                     alert("Wrong Code");
@@ -336,29 +358,27 @@ document.addEventListener('DOMContentLoaded', function() {
                 
             })
       })
-
+  
      
     }
   }
   
   // Create an instance of CouponCode
   const coupon = new CouponCode();
-});
+  });
+</script>
 
 
-</script> 
-
-
- <script>
+<script>
     
-(function() {
- 
- const moneyFormat = {{ shop.money_format | json }};
-
- // Initialize once DOM is ready
- document.addEventListener('DOMContentLoaded', initCartAjax);
-
- function initCartAjax() {
+  (function() {
+   
+   const moneyFormat = {{ shop.money_format | json }};
+  
+   // Initialize once DOM is ready
+   document.addEventListener('DOMContentLoaded', initCartAjax);
+  
+   function initCartAjax() {
    // Delegate clicks on all current & future “.cart-remove” links
    document.body.addEventListener('click', function(evt) {
      const btn = evt.target.closest('.cart-remove');
@@ -368,9 +388,9 @@ document.addEventListener('DOMContentLoaded', function() {
      if (!line) return;
      removeCartLine(line);
    });
- }
-
- async function removeCartLine(line) {
+   }
+  
+   async function removeCartLine(line) {
    try {
      // Shopify’s AJAX endpoint for changing a single line
      const url = `{{ routes.cart_change_url }}?line=${line}&quantity=0`;
@@ -384,22 +404,22 @@ document.addEventListener('DOMContentLoaded', function() {
    } catch (err) {
      console.error('Failed to remove item from cart:', err);
    }
- }
-
- function updateCartUI(line, cart) {
+   }
+  
+   function updateCartUI(line, cart) {
    // 1) Remove the <tr> for that line
    const row = document.querySelector(`.cart-item[data-line="${line}"]`);
    if (row) row.remove();
-
+  
    const count = document.querySelector("#cart-count");
    count.textContent = cart.item_count;
    
    
-
+  
    // 2) Update the subtotal
    const totalEl = document.querySelector('.orignal_total_price');
     totalEl.textContent =`Rs: ${(cart.original_total_price/100).toFixed(2)}`;
-
+  
    // 3) (Optional) If cart is now empty, you could show an “empty cart” message here
    if (cart.item_count == 0) {
      count.textContent = "";
@@ -411,41 +431,36 @@ document.addEventListener('DOMContentLoaded', function() {
    </div>`
      
    }
- }
-})();
-</script> 
-
-
-
+   }
+  })();
+</script>
 
 
 {% schema %}
-{
+  {
     "name": "Template Cart",
     "settings": [
-        {
-            "type": "text",
-            "id": "title",
-            "label": "Title",
-            "default" : "Cart"
-        }
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Cart"
+      }
     ],
     "blocks": [
-        {
-            "type": "subtotal",
-            "name": "Subtotal",
-            "limit": 1
-        },
-        {
-            "type": "update_button",
-            "name": "Update Button",
-            "limit": 1
-        },
-        {
-            "type": "checkout_button",
-            "name": "Checkout Button",
-            "limit": 1
-        }
+      {
+        "type": "subtotal",
+        "name": "Subtotal",
+        "limit": 1
+      }, {
+        "type": "update_button",
+        "name": "Update Button",
+        "limit": 1
+      }, {
+        "type": "checkout_button",
+        "name": "Checkout Button",
+        "limit": 1
+      }
     ]
-}
+  }
 {% endschema %}
