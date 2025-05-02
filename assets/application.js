@@ -20,7 +20,7 @@ function initCartForms() {
       const originalHTML = button.innerHTML;
 
       button.disabled = true;
-      button.textContent = 'Adding...';
+      button.innerHTML =`<div class="spinner"></div>`
 
       try {
         const response = await fetch('/cart/add.js', {
