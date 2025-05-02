@@ -2,7 +2,7 @@
   {% render  'page' , title : section.settings.title %}
     
     
-    <div id="list_container" class="w-full p-[0.5em] px-[5em] py-[2em]  mt-[3em] flex flex-wrap gap-4 ">
+    <div id="list_container" class="w-full p-[0.5em]  lg:px-[5em] py-[2em]  mt-[3em] flex flex-wrap justify-evenly sm:gap-4 ">
       
     </div>
 
@@ -50,7 +50,7 @@ class Wishlist {
   createProductCard(product) {
     const div = document.createElement('div');
     // You can add a "product-card" class here in addition to your responsive utility classes
-    div.className = 'product-card sm:w-full lg:w-[32%] p-1 group';
+    div.className = 'product-card   p-1 group w-[300px]';
     
     div.innerHTML = `
       <div class="w-full h-[347px] bg-[#F0F2F1] relative flex justify-center items-center overflow-hidden">

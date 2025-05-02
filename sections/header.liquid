@@ -37,27 +37,17 @@ x-cloak>
     
     
     <!-- Main Menu -->
-    <div  x-show=" !search " class="py-4 shadow-sm sm:px-[4.5em]">
+    <div  x-show=" !search " class="py-4 00 shadow-sm sm:px-[4.5em]">
       <div class="container mx-auto px-4">
         <div class="flex items-center justify-between">
           <!-- Logo -->
           <a href="#" class="">
-            <div class="flex items-center">
-              <img src="{{ 'logo.png' |  asset_url }}" alt="" width="" height="">
+            <div class="flex items-center ">
+              <img src="{{ 'logo.png' |  asset_url }}" alt="" width="" height="" class="sm:w-full h-full w-[75%]  ">
             </div>
           </a>
           
-          <!-- Mobile Menu Button -->
-          <div class="lg:hidden" x-data="{cross:false , bars:true}">
-            <div x-on:click="cross=true , bars=false" x-show="bars" id="bars" class="">
-              {% render 'icon-menu' %}
-            </div>
-
-            <div x-on:click="bars=true,cross=false" x-show="cross" id="cross" class="">
-              {% render 'icon-close' %}
-            </div>
-               
-          </div>
+         
           
           <!-- Desktop Navigation -->
           <nav class=" hidden lg:flex items-center space-x-8 text-[14px] justify-between  w-[40%] ">
@@ -109,7 +99,7 @@ x-cloak>
           </nav>
           
           <!-- Icons -->
-          <div class="hidden lg:flex items-center  text-[14px] w-[20%]   justify-end gap-[1.2em] pr-[1.6em]">
+          <div class=" flex  lg:flex items-center  text-[14px]   lg:w-[20%]   justify-end gap-[1.2em] sm:pr-[1.6em]">
             <button
               x-on:click="search = true"
               type="button"
@@ -154,6 +144,18 @@ x-cloak>
                       {% comment %} <a class="hover:text-[#71CD14] duration-300 hover:translate-y-1 hidden lg:block"  href="{{routes.account_register_url}}">Register</a> {% endcomment %}
               {% endif %}
             {% endif %}
+
+
+            <div class="lg:hidden " x-data="{cross:false , bars:true}">
+            <div x-on:click="cross=true , bars=false" x-show="bars" id="bars" class="">
+              {% render 'icon-menu' %}
+            </div>
+
+            <div x-on:click="bars=true,cross=false" x-show="cross" id="cross" class="">
+              {% render 'icon-close' %}
+            </div>
+               
+          </div>
           </div>
         </div>
       </div>
@@ -163,16 +165,7 @@ x-cloak>
       <nav class=" ml-[2em] flex flex-col lg:hidden items-start space-x-8 text-[14px] justify-center gap-[1.5em] mt-[2em] ">
            
             
-      {% if shop.customer_accounts_enabled %}
-        {% if customer %}
-              <a class="" href="{{routes.account_url}}">{% render 'icon-account' %}</a>
-              <a class="hover:scale-[1.03] duration-300 text-red-500 " href="{{routes.account_logout_url}}">LogOut</a>
-
-              {% else %}
-                <a  class="hover:text-[#71CD14] duration-300 hover:translate-y-1" href="{{routes.account_login_url}}">Login</a>
-                <a class="hover:text-[#71CD14] duration-300 hover:translate-y-1 "  href="{{routes.account_register_url}}">Register</a>
-        {% endif %}
-      {% endif %}
+      
 
             {% for link in main_menu_linklist %}
               {% if link.links != blank %}
@@ -212,23 +205,30 @@ x-cloak>
             {% endfor %}
             
 
-            <div class="w-[30%] p-2  flex  gap-4 items-center">
-              <div class="p-[0.5em] bg-slate-400 hover:bg-green-400 duration-300">
-                {% render 'icon-search' %}
-              </div>
-             
-              <div class="p-[0.5em] bg-slate-400 hover:bg-green-400 duration-300">
-                {% render 'icon-shopping-bag' %}
-              </div>
-              
-            </div>
+            {% if shop.customer_accounts_enabled %}
+              {% if customer %}
+                <div class="w-full  flex gap-[2em] items-center">
+                  <a class="px-[1em] py-[0.3em] bg-lime-500 rounded-sm text-white " href="{{routes.account_url}}">{% render 'icon-account' %}</a>
+                  <a class="px-[1em] py-[0.3em] bg-lime-500 rounded-sm   hover:scale-[1.03] duration-300 text-red-500 " href="{{routes.account_logout_url}}">LogOut</a>
+                </div>
+                    
+                    
+      
+                    {% else %}
+                    <div class="w-full  flex gap-[2em] items-center">
+                      <a  class="px-[1em] py-[0.3em] bg-lime-500 rounded-sm text-white hover:text-[#71CD14] duration-300 hover:translate-y-1" href="{{routes.account_login_url}}">Login</a>
+                      <a class="px-[1em] py-[0.3em] bg-lime-500 rounded-sm text-white hover:text-[#71CD14] duration-300 hover:translate-y-1 "  href="{{routes.account_register_url}}">Register</a>
+                    </div>
+                     
+              {% endif %}
+            {% endif %}
           </nav>
     </div>
 
 
     {% comment %} SEARCH BAR {% endcomment %}
-     <div x-show="search" class=" relative w-full sm:px-[5em] py-[1em] flex justify-center items-center bg-white">
-      <form class="md:w-[50%]  flex" action="{{ routes.search_url }}">
+     <div x-show="search" class=" relative w-full lg:px-[5em] py-[1em] flex justify-center items-center bg-white">
+      <form class="w-[75%]  lg:w-[50%]  flex" action="{{ routes.search_url }}">
         <input type="search"
         placeholder="Search"
         name="q"
@@ -237,7 +237,7 @@ x-cloak>
         <input type="submit" value="Search" class="py-[0.5em] px-[1.5em] rounded-tr-sm rounded-br-sm bg-green-400 border-[0.5px] border-green-400 hover:bg-transparent hover:text-green-400 text-white duration-300 cursor-pointer">
       </form>
        
-      <div x-on:click="search = false" class="absolute right-[3em] top-[25%] cursor-pointer  ">
+      <div x-on:click="search = false" class="absolute right-[0.5em] sm:right-[1.5em] md:right-[3em] top-[25%] cursor-pointer  ">
           {% render 'icon-close' %}
       </div>
 
@@ -287,7 +287,7 @@ x-cloak>
          const List = this.getMenus();
          
          Bars.addEventListener("click",function(){
-          List.style.height = "25em"
+          List.style.height = "20em"
          })
 
 
