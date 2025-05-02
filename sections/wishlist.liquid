@@ -123,7 +123,7 @@ class Wishlist {
         // Store original button innerHTML
         const originalHTML = addButton.innerHTML;
         addButton.disabled = true;
-        addButton.innerHTML = 'Adding...';
+        addButton.innerHTML = '<div class="spinner"></div>';
 
         try {
           const response = await fetch('/cart/add.js', {

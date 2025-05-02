@@ -123,14 +123,14 @@ function showProduct(data) {
 
   // Inject markup
   container.innerHTML = `
-    <div x-on:click="quick_view = false" class="absolute right-[1em] top-[1em] p-[0.5em] cursor-pointer">
+    <div x-on:click="quick_view = false" class="absolute right-[1em] z-50 top-[1em] p-[0.5em] cursor-pointer">
       <p class="text-[1.5em]">X</p>
     </div>
-    <div class="w-full px-[5em] mx-auto my-8">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-[2em]">
+    <div class="w-full lg:px-[5em] mx-auto my-8  ">
+      <div class="flex justify-between lg:flex-row flex-col  gap-[2em] items-center">
 
         <!-- Media Section -->
-        <div class="product--medias">
+        <div class="product--medias w-full sm:w-[80%] lg:w-1/2">
           <div class="relative ">
             <div class="  w-full h-[35em] overflow-x-hidden">
               <img src="${mainImage}" alt="${data.title}" class=" quick_view_frame w-full h-full object-cover" />
@@ -143,7 +143,7 @@ function showProduct(data) {
         </div>
 
         <!-- Information Section -->
-        <div class="product--information sticky top-5 py-2 pl-[3em]">
+        <div class="w-full sm:w-[80%] lg:w-1/2 product--information sticky top-5 px-[0.5em] py-2 sm:pl-[3em]">
           <form method="post" action="/cart/add.js" class="add-to-cart-form" novalidate>
             <input type="hidden" name="id" id="selected-variant-id" value="${data.variants[0].id}">
 

@@ -740,6 +740,9 @@
   .w-\[75\%\] {
     width: 75%;
   }
+  .w-\[80\%\] {
+    width: 80%;
+  }
   .w-\[85\%\] {
     width: 85%;
   }
@@ -781,6 +784,9 @@
   }
   .max-w-\[500px\] {
     max-width: 500px;
+  }
+  .max-w-\[1340px\] {
+    max-width: 1340px;
   }
   .max-w-\[1440px\] {
     max-width: 1440px;
@@ -830,6 +836,22 @@
   }
   .-translate-y-1\/2 {
     --tw-translate-y: calc(calc(1/2 * 100%) * -1);
+    translate: var(--tw-translate-x) var(--tw-translate-y);
+  }
+  .-translate-y-\[0em\] {
+    --tw-translate-y: calc(0em * -1);
+    translate: var(--tw-translate-x) var(--tw-translate-y);
+  }
+  .-translate-y-\[5em\] {
+    --tw-translate-y: calc(5em * -1);
+    translate: var(--tw-translate-x) var(--tw-translate-y);
+  }
+  .translate-y-0 {
+    --tw-translate-y: calc(var(--spacing) * 0);
+    translate: var(--tw-translate-x) var(--tw-translate-y);
+  }
+  .translate-y-\[0em\] {
+    --tw-translate-y: 0em;
     translate: var(--tw-translate-x) var(--tw-translate-y);
   }
   .translate-y-\[5em\] {
@@ -2140,6 +2162,11 @@
       width: 48%;
     }
   }
+  .sm\:w-\[80\%\] {
+    @media (width >= 40rem) {
+      width: 80%;
+    }
+  }
   .sm\:w-full {
     @media (width >= 40rem) {
       width: 100%;
@@ -2248,6 +2275,11 @@
   .sm\:pr-\[1\.6em\] {
     @media (width >= 40rem) {
       padding-right: 1.6em;
+    }
+  }
+  .sm\:pl-\[3em\] {
+    @media (width >= 40rem) {
+      padding-left: 3em;
     }
   }
   .sm\:pl-\[5em\] {
@@ -2533,6 +2565,11 @@
       height: 45em;
     }
   }
+  .lg\:w-1\/2 {
+    @media (width >= 64rem) {
+      width: calc(1/2 * 100%);
+    }
+  }
   .lg\:w-\[8\.5em\] {
     @media (width >= 64rem) {
       width: 8.5em;
@@ -2718,6 +2755,12 @@
       max-width: 1440px;
     }
   }
+  .xl\:translate-y-\[5em\] {
+    @media (width >= 80rem) {
+      --tw-translate-y: 5em;
+      translate: var(--tw-translate-x) var(--tw-translate-y);
+    }
+  }
   .xl\:flex-row {
     @media (width >= 80rem) {
       flex-direction: row;
@@ -2731,6 +2774,16 @@
   .xl\:px-\[5em\] {
     @media (width >= 80rem) {
       padding-inline: 5em;
+    }
+  }
+  .xl\:group-hover\:-translate-y-\[0em\] {
+    @media (width >= 80rem) {
+      &:is(:where(.group):hover *) {
+        @media (hover: hover) {
+          --tw-translate-y: calc(0em * -1);
+          translate: var(--tw-translate-x) var(--tw-translate-y);
+        }
+      }
     }
   }
 }
