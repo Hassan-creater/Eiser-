@@ -307,6 +307,30 @@
   .bottom-\[6\.5em\] {
     bottom: 6.5em;
   }
+  .bottom-\[6em\] {
+    bottom: 6em;
+  }
+  .bottom-\[7em\] {
+    bottom: 7em;
+  }
+  .bottom-\[8em\] {
+    bottom: 8em;
+  }
+  .bottom-\[10em\] {
+    bottom: 10em;
+  }
+  .bottom-\[11em\] {
+    bottom: 11em;
+  }
+  .bottom-\[12em\] {
+    bottom: 12em;
+  }
+  .bottom-\[13em\] {
+    bottom: 13em;
+  }
+  .bottom-\[20em\] {
+    bottom: 20em;
+  }
   .left-0 {
     left: calc(var(--spacing) * 0);
   }
@@ -318,6 +342,9 @@
   }
   .left-\[-5000px\] {
     left: -5000px;
+  }
+  .left-\[1em\] {
+    left: 1em;
   }
   .left-\[2em\] {
     left: 2em;
@@ -687,6 +714,9 @@
   .w-\[5em\] {
     width: 5em;
   }
+  .w-\[6\] {
+    width: 6;
+  }
   .w-\[6em\] {
     width: 6em;
   }
@@ -723,6 +753,12 @@
   .w-\[30\%\] {
     width: 30%;
   }
+  .w-\[35\%\] {
+    width: 35%;
+  }
+  .w-\[38\%\] {
+    width: 38%;
+  }
   .w-\[40\%\] {
     width: 40%;
   }
@@ -740,6 +776,12 @@
   }
   .w-\[50\%\] {
     width: 50%;
+  }
+  .w-\[60\] {
+    width: 60;
+  }
+  .w-\[64\%\] {
+    width: 64%;
   }
   .w-\[65\%\] {
     width: 65%;
@@ -924,6 +966,9 @@
   .gap-10 {
     gap: calc(var(--spacing) * 10);
   }
+  .gap-20 {
+    gap: calc(var(--spacing) * 20);
+  }
   .gap-\[0\.4em\] {
     gap: 0.4em;
   }
@@ -951,8 +996,14 @@
   .gap-\[2em\] {
     gap: 2em;
   }
+  .gap-\[3em\] {
+    gap: 3em;
+  }
   .gap-\[4em\] {
     gap: 4em;
+  }
+  .gap-\[10em\] {
+    gap: 10em;
   }
   .space-y-3 {
     :where(& > :not(:last-child)) {
@@ -1267,6 +1318,9 @@
   .object-cover {
     object-fit: cover;
   }
+  .object-fill {
+    object-fit: fill;
+  }
   .object-center {
     object-position: center;
   }
@@ -1437,6 +1491,9 @@
   }
   .py-\[4em\] {
     padding-block: 4em;
+  }
+  .py-\[5em\] {
+    padding-block: 5em;
   }
   .py-\[8em\] {
     padding-block: 8em;
@@ -2052,6 +2109,16 @@
       right: 2em;
     }
   }
+  .sm\:bottom-\[7em\] {
+    @media (width >= 40rem) {
+      bottom: 7em;
+    }
+  }
+  .sm\:left-\[2em\] {
+    @media (width >= 40rem) {
+      left: 2em;
+    }
+  }
   .sm\:block {
     @media (width >= 40rem) {
       display: block;
@@ -2080,6 +2147,11 @@
   .sm\:h-\[6em\] {
     @media (width >= 40rem) {
       height: 6em;
+    }
+  }
+  .sm\:h-\[25em\] {
+    @media (width >= 40rem) {
+      height: 25em;
     }
   }
   .sm\:w-1\/2 {
@@ -2182,6 +2254,16 @@
       gap: 1em;
     }
   }
+  .sm\:gap-\[2em\] {
+    @media (width >= 40rem) {
+      gap: 2em;
+    }
+  }
+  .sm\:object-cover {
+    @media (width >= 40rem) {
+      object-fit: cover;
+    }
+  }
   .sm\:p-\[0\.2em\] {
     @media (width >= 40rem) {
       padding: 0.2em;
@@ -2282,6 +2364,11 @@
   .md\:bottom-\[3\.5em\] {
     @media (width >= 48rem) {
       bottom: 3.5em;
+    }
+  }
+  .md\:bottom-\[6em\] {
+    @media (width >= 48rem) {
+      bottom: 6em;
     }
   }
   .md\:my-16 {
@@ -2475,6 +2562,11 @@
       right: 16em;
     }
   }
+  .lg\:bottom-\[7em\] {
+    @media (width >= 64rem) {
+      bottom: 7em;
+    }
+  }
   .lg\:block {
     @media (width >= 64rem) {
       display: block;
@@ -2535,6 +2627,16 @@
       width: 32%;
     }
   }
+  .lg\:w-\[35\%\] {
+    @media (width >= 64rem) {
+      width: 35%;
+    }
+  }
+  .lg\:w-\[38\%\] {
+    @media (width >= 64rem) {
+      width: 38%;
+    }
+  }
   .lg\:w-\[45\%\] {
     @media (width >= 64rem) {
       width: 45%;
@@ -2543,6 +2645,11 @@
   .lg\:w-\[50\%\] {
     @media (width >= 64rem) {
       width: 50%;
+    }
+  }
+  .lg\:w-\[64\%\] {
+    @media (width >= 64rem) {
+      width: 64%;
     }
   }
   .lg\:w-\[70\%\] {
@@ -2575,6 +2682,11 @@
       flex-wrap: nowrap;
     }
   }
+  .lg\:flex-wrap-reverse {
+    @media (width >= 64rem) {
+      flex-wrap: wrap-reverse;
+    }
+  }
   .lg\:gap-0 {
     @media (width >= 64rem) {
       gap: calc(var(--spacing) * 0);
@@ -2590,6 +2702,11 @@
       gap: calc(var(--spacing) * 12);
     }
   }
+  .lg\:gap-\[1\.5em\] {
+    @media (width >= 64rem) {
+      gap: 1.5em;
+    }
+  }
   .lg\:px-8 {
     @media (width >= 64rem) {
       padding-inline: calc(var(--spacing) * 8);
@@ -2600,14 +2717,29 @@
       padding-inline: 5em;
     }
   }
+  .lg\:py-\[5em\] {
+    @media (width >= 64rem) {
+      padding-block: 5em;
+    }
+  }
   .xl\:right-0 {
     @media (width >= 80rem) {
       right: calc(var(--spacing) * 0);
     }
   }
+  .xl\:bottom-\[6\.5em\] {
+    @media (width >= 80rem) {
+      bottom: 6.5em;
+    }
+  }
   .xl\:w-\[25\%\] {
     @media (width >= 80rem) {
       width: 25%;
+    }
+  }
+  .xl\:w-\[30\%\] {
+    @media (width >= 80rem) {
+      width: 30%;
     }
   }
   .xl\:w-\[32\%\] {
@@ -2630,6 +2762,16 @@
       width: 49%;
     }
   }
+  .xl\:w-\[65\%\] {
+    @media (width >= 80rem) {
+      width: 65%;
+    }
+  }
+  .xl\:w-\[67\%\] {
+    @media (width >= 80rem) {
+      width: 67%;
+    }
+  }
   .xl\:w-\[75\%\] {
     @media (width >= 80rem) {
       width: 75%;
@@ -2645,9 +2787,19 @@
       flex-direction: row;
     }
   }
+  .xl\:p-\[5em\] {
+    @media (width >= 80rem) {
+      padding: 5em;
+    }
+  }
   .xl\:px-\[4em\] {
     @media (width >= 80rem) {
       padding-inline: 4em;
+    }
+  }
+  .xl\:px-\[5em\] {
+    @media (width >= 80rem) {
+      padding-inline: 5em;
     }
   }
 }

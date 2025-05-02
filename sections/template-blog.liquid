@@ -2,16 +2,16 @@
   assign latest_blogs = blogs['tech'].articles | sort : 'published_at' 
 %}
 
-<div >
+<div>
 
   {% render 'page' , title: section.settings.blog_title %}
 
   
 
 
-    <div class="w-full  p-[5em] mb-[3em] mx-auto flex justify-between">
+    <div class="w-full px-[1em] sm:px-[2em] lg:py-[5em]  xl:px-[5em] mb-[3em] mx-auto flex lg:flex-row flex-col justify-between">
       {% paginate blog.articles by section.settings.number_of_blog_posts %}
-      <div class="w-[67%]    ">
+      <div class="w-full lg:w-[64%] xl:w-[67%]    ">
         {% for article in blog.articles reversed %}
           <div class="w-full  py-6 px-3">
             <div class="bg-white shadow-xl rounded-lg overflow-hidden relative">
@@ -28,7 +28,7 @@
                 {{ 'image' | placeholder_svg_tag: 'w-full h-80 object-cover bg-gray-100' }}
               {% endif %}
 
-              <div class=" px-[0.4em]  py-[0.4em] text-center leading-[1.2em] w-[3em] absolute bottom-[6.5em] text-[30px] left-[2em] rounded-sm text-white bg-[#71CD14]">
+              <div class=" px-[0.4em]  py-[0.4em] text-center leading-[1.2em] w-[3em] absolute bottom-[10em] sm:bottom-[7em]  md:bottom-[6em] lg:bottom-[7em] xl:bottom-[6.5em] text-[30px] sm:left-[2em] left-[1em] rounded-sm text-white bg-[#71CD14]">
                 <p class="font-semibold">{{ article.created_at | date: "%d %b" }}</p>
               </div>
 
@@ -42,10 +42,10 @@
                 {% endif %}
 
                 <a href="{{ article.url }}">
-                  <div class="w-full px-[1em] mt-[1.6em]  flex  gap-[2em] text-[rgb(153,153,153)] cursor-pointer ">
-                    <p>{{ article.author }}</p>
+                  <div class="w-full px-[1em] mt-[1.6em]  flex gap-[1em] sm:gap-[2em] text-[rgb(153,153,153)] cursor-pointer ">
+                    <p class="whitespace-nowrap">{{ article.author }}</p>
                     <p class="border-l border-[rgb(153,153,153)]"></p>
-                    <p>
+                    <p class="whitespace-nowrap">
                       {{ article.comments_count }} comments</p>
                   </div>
                 </a>
@@ -62,7 +62,7 @@
 
       {% endpaginate %}
 
-      <div class="w-[30%] px-[1em] py-[1.5em] flex flex-col gap-[1.7em]">
+      <div class="w-full lg:w-[38%] xl:w-[30%] px-[1em] py-[1.5em] flex flex-col gap-[1.7em]">
 
         {% comment %} SEARCH DIV {% endcomment %}
         <div class="w-full p-[1.5em] bg-[#FBF9FF]  ">
@@ -120,7 +120,7 @@
             {% for latest in latest_blogs limit:4 %}
               <a href="{{ latest.url }}">
                 <div class="w-full py-[0.5em] group  flex gap-3">
-                  <div class="w-[30%]   flex justify-center items-center overflow-hidden">
+                  <div class="w-[25%] lg:w-[30%]   flex justify-center items-center overflow-hidden">
                     <img src="{{ latest.image |  img_url: 'medium' }}"  class="w-full h-full object-cover object-center group-hover:scale-[1.1] duration-500" alt="{{ latest.image.alt }}" width="" height="">
                   </div>
                   <div class="w-[70%] py-[0.5em] ">
@@ -171,7 +171,7 @@
           <div class="w-full p-1  flex justify-evenly flex-wrap gap-[0.4em]">
             {% for feed in blog.articles   %}
                
-              <div class="w-[30%] h-[5em]  bg-red-300">
+              <div class="w-[25%] lg:w-[30%] h-[5em]  bg-red-300">
                 <img src="{{ feed.image |  img_url: 'medium' }}" alt="{{ feed.image.alt }}" width="" height="" class="w-full h-full object-cover object-center">
               </div>
               

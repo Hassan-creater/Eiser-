@@ -2,26 +2,21 @@
   class=" "
   itemscope
   itemtype="http://schema.org/BlogPosting">
-
-  {% comment %} <div class="w-full bg-[#F6F6F6] py-[4.7em] px-[5em] flex flex-col gap-3 mb-[3em]">
-    <h1 class=" text-3xl roboto font-medium">{{ section.settings.blog_details }}</h1>
-    <p class="text-[12.5px] text-slate-600 roboto">Very us move be blessed multiply night</p>
-  </div> {% endcomment %}
   {% render 'page' , title : section.settings.blog_details %}
-  <div class="w-full flex justify-between px-[5em] mb-[7em]">
+  <div class="w-full flex lg:flex-row flex-col  justify-between gap-20 lg:gap-0 px-[0.5em] sm:px-[2em] xl:px-[5em] mb-[7em]">
     {% comment %} ARTICLE SECTION {% endcomment %}
-    <div class="w-[65%] py-2   flex flex-col gap-[1.5em]">
+    <div class="w-full lg:w-[64%] xl:w-[65%] py-2   flex flex-col gap-[1.5em]">
 
 
       {% for block in section.blocks %}
         {% case block.type %}
           {% when 'featured_image' %}
             {% if article.image %}
-              <div itemprop="image" class="w-full h-[25em] bg-red-200 flex justify-center items-center overflow-hidden">
+              <div itemprop="image" class="w-full sm:h-[25em] bg-red-200 flex justify-center items-center overflow-hidden">
                 <img
                   src="{{ article.image |  img_url: 'large' }}"
                   alt="{{ article.image.alt }}"
-                  class="w-full h-full object-center object-cover hover:scale-[1.04] duration-300"
+                  class="w-full h-full object-center sm:object-cover  hover:scale-[1.04] duration-300"
                   width=""
                   height="">
               </div>
@@ -35,7 +30,7 @@
             <h1 itemprop="headline" class="text-[24px] font-bold roboto">{{ article.title }}</h1>
 
           {% when 'article_author' %}
-            <div class="flex w-full items-center gap-6 text-[14px] text-[rgb(153,153,153)] roboto">
+            <div class="flex w-full items-center gap-6 text-[14px] text-[rgb(153,153,153)] roboto flex-wrap ">
               {% if section.settings.enable_author %}
                 <p itemtype="http://schema.org/Person" itemprop="author">
                   Author: {{ article.author }}</p>
@@ -164,7 +159,7 @@
 
     </div>
 
-    <div class="w-[30%] px-[1em] py-[1.5em] flex flex-col gap-[1.7em]">
+    <div class="w-full lg:w-[35%] xl:w-[30%] px-[1em] py-[1.5em] flex flex-col gap-[1.7em]">
 
       {% comment %} SEARCH DIV {% endcomment %}
       <div class="w-full p-[1.5em] bg-[#FBF9FF]  ">
