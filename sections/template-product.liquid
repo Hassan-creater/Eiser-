@@ -34,14 +34,14 @@
 
 
   <div class="  w-full px-[0.5em] sm:px-[2em] lg:px-[5em] mx-auto my-8">
-    <div class="  flex gap-4 xl:flex-row flex-col justify-center items-center">
-      <div class=" w-[99%] xl:w-[49%]    product-medias">
+    <div class="  flex gap-4 xl:flex-row flex-col justify-center ">
+      <div class=" max-w-[40em] w-full xl:w-[49%]    product-medias">
         <div class=" relative w-full flex justify-center items-center">
-          <div class="w-full h-[35em]  relative flex gap-2 overflow-x-hidden  ">
+          <div class="w-full h-[35em]  relative flex  overflow-x-hidden  ">
 
-            <div class="Frame w-full sm:w-full h-full flex  relative justify-center items-center   frame duration-500  ">
+            <div class="Frame h-full flex  relative      frame duration-500  ">
               {% for media in product.media %}
-                <div  class=" w-full sm:w-[40em] xl:w-[35em] h-full">
+                <div  class="w-[365px] sm:w-[45em]   xl:w-[36.2em] width ">
                     {% render 'product-media', media : media %}
                   </div>`
               {% endfor %}
@@ -354,6 +354,8 @@
     super();
     // bind event handler to keep `this`
     this.onVariantChange = this.onVariantChange.bind(this);
+
+   
   }
 
   connectedCallback() {
@@ -435,12 +437,29 @@
     });
   }
 
+  getWidth() {
+  let widths = document.querySelectorAll(".width");
+  let widthValues = [];
+
+  widths.forEach((width) => {
+    widthValues.push(width.offsetWidth);
+  });
+
+  return widthValues;
+}
+
+
+
   initFrameSlider() {
     const frame = document.querySelector('.frame');
     document.querySelectorAll('.images').forEach(img => {
       img.addEventListener('click', () => {
+        let width =  this.getWidth();
+              console.log(width[0]);
+    
+        
         const idx = Number(img.dataset.count) || 0;
-        frame.style.transform = `translateX(-${36 * idx}em)`;
+        frame.style.transform = `translateX(-${(width[0] + 7 ) * idx}px)`;
       });
     });
   }
