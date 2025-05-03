@@ -28,10 +28,7 @@ function initCartForms() {
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: new URLSearchParams(formData)
         });
-        if (!response.ok) throw new Error(`Status ${response.status}`);
-        
-      
-      
+        if (!response.ok) throw new Error(`Status ${response.status}`);      
         const cartRes = await fetch('/cart.js');
         const cartData = await cartRes.json();
         document.querySelectorAll('#cart-count').forEach(span => {
@@ -223,9 +220,9 @@ function showProduct(data) {
 
     // Update hidden input and price display
     document.getElementById('selected-variant-id').value = match.id;
-    document.getElementById('current-price').textContent = `$${match.price}`;
+    document.getElementById('current-price').textContent = `Rs: ${match.price}`;
     if (match.compare_at_price) {
-      document.getElementById('compare-price').textContent = `$${match.compare_at_price}`;
+      document.getElementById('compare-price').textContent = `Rs: ${match.compare_at_price}`;
       document.getElementById('compare-price').classList.remove('hidden');
     } else {
       document.getElementById('compare-price').classList.add('hidden');
