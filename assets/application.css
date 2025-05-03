@@ -12,7 +12,9 @@
     --color-red-400: oklch(0.704 0.191 22.216);
     --color-red-500: oklch(0.637 0.237 25.331);
     --color-red-700: oklch(0.505 0.213 27.518);
+    --color-amber-400: oklch(0.828 0.189 84.429);
     --color-amber-900: oklch(0.414 0.112 45.904);
+    --color-lime-400: oklch(0.841 0.238 128.85);
     --color-lime-500: oklch(0.768 0.233 130.85);
     --color-green-400: oklch(0.792 0.209 151.711);
     --color-green-500: oklch(0.723 0.219 149.579);
@@ -579,6 +581,12 @@
   .h-\[40\%\] {
     height: 40%;
   }
+  .h-\[40\] {
+    height: 40;
+  }
+  .h-\[40em\] {
+    height: 40em;
+  }
   .h-\[40px\] {
     height: 40px;
   }
@@ -617,6 +625,9 @@
   }
   .min-h-\[31\.5em\] {
     min-height: 31.5em;
+  }
+  .min-h-\[35em\] {
+    min-height: 35em;
   }
   .min-h-\[40em\] {
     min-height: 40em;
@@ -680,6 +691,9 @@
   }
   .w-\[10em\] {
     width: 10em;
+  }
+  .w-\[14em\] {
+    width: 14em;
   }
   .w-\[15em\] {
     width: 15em;
@@ -810,6 +824,10 @@
   }
   .-translate-y-1\/2 {
     --tw-translate-y: calc(calc(1/2 * 100%) * -1);
+    translate: var(--tw-translate-x) var(--tw-translate-y);
+  }
+  .translate-y-0 {
+    --tw-translate-y: calc(var(--spacing) * 0);
     translate: var(--tw-translate-x) var(--tw-translate-y);
   }
   .translate-y-\[0em\] {
@@ -1053,9 +1071,17 @@
     border-top-style: var(--tw-border-style);
     border-top-width: 0.5px;
   }
+  .border-t-\[1px\] {
+    border-top-style: var(--tw-border-style);
+    border-top-width: 1px;
+  }
   .border-r-\[0\.5px\] {
     border-right-style: var(--tw-border-style);
     border-right-width: 0.5px;
+  }
+  .border-r-\[1px\] {
+    border-right-style: var(--tw-border-style);
+    border-right-width: 1px;
   }
   .border-b {
     border-bottom-style: var(--tw-border-style);
@@ -1080,6 +1106,10 @@
   .border-l-\[0\.5px\] {
     border-left-style: var(--tw-border-style);
     border-left-width: 0.5px;
+  }
+  .border-l-\[1px\] {
+    border-left-style: var(--tw-border-style);
+    border-left-width: 1px;
   }
   .border-none {
     --tw-border-style: none;
@@ -1111,6 +1141,9 @@
   }
   .border-green-400 {
     border-color: var(--color-green-400);
+  }
+  .border-lime-400 {
+    border-color: var(--color-lime-400);
   }
   .border-lime-500 {
     border-color: var(--color-lime-500);
@@ -1153,6 +1186,9 @@
   }
   .bg-\[rgba\(113\,205\,20\,0\.55\)\] {
     background-color: rgba(113,205,20,0.55);
+  }
+  .bg-amber-400 {
+    background-color: var(--color-amber-400);
   }
   .bg-amber-900 {
     background-color: var(--color-amber-900);
@@ -2476,6 +2512,11 @@
       height: 31.5em;
     }
   }
+  .lg\:h-\[35em\] {
+    @media (width >= 64rem) {
+      height: 35em;
+    }
+  }
   .lg\:h-\[40em\] {
     @media (width >= 64rem) {
       height: 40em;
@@ -2486,6 +2527,11 @@
       height: 45em;
     }
   }
+  .lg\:h-full {
+    @media (width >= 64rem) {
+      height: 100%;
+    }
+  }
   .lg\:w-1\/2 {
     @media (width >= 64rem) {
       width: calc(1/2 * 100%);
@@ -2494,6 +2540,26 @@
   .lg\:w-\[8\.5em\] {
     @media (width >= 64rem) {
       width: 8.5em;
+    }
+  }
+  .lg\:w-\[14em\] {
+    @media (width >= 64rem) {
+      width: 14em;
+    }
+  }
+  .lg\:w-\[15em\] {
+    @media (width >= 64rem) {
+      width: 15em;
+    }
+  }
+  .lg\:w-\[16em\] {
+    @media (width >= 64rem) {
+      width: 16em;
+    }
+  }
+  .lg\:w-\[17em\] {
+    @media (width >= 64rem) {
+      width: 17em;
     }
   }
   .lg\:w-\[20\%\] {
@@ -2509,6 +2575,11 @@
   .lg\:w-\[23\.5\%\] {
     @media (width >= 64rem) {
       width: 23.5%;
+    }
+  }
+  .lg\:w-\[25\%\] {
+    @media (width >= 64rem) {
+      width: 25%;
     }
   }
   .lg\:w-\[25em\] {
@@ -2556,6 +2627,11 @@
       width: 70%;
     }
   }
+  .lg\:w-\[calc\(100\%-26\%\)\] {
+    @media (width >= 64rem) {
+      width: calc(100% - 26%);
+    }
+  }
   .lg\:max-w-\[1024px\] {
     @media (width >= 64rem) {
       max-width: 1024px;
@@ -2581,9 +2657,19 @@
       flex-wrap: nowrap;
     }
   }
+  .lg\:justify-center {
+    @media (width >= 64rem) {
+      justify-content: center;
+    }
+  }
   .lg\:gap-0 {
     @media (width >= 64rem) {
       gap: calc(var(--spacing) * 0);
+    }
+  }
+  .lg\:gap-2 {
+    @media (width >= 64rem) {
+      gap: calc(var(--spacing) * 2);
     }
   }
   .lg\:gap-4 {

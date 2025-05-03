@@ -7,17 +7,14 @@
 %}
 
 
-
-
-
-
-
-
-<header x-cloak x-data="{ search : false }" class="w-full relative " 
-x-cloak>
-    <!-- Top Menu -->
-     {% if section.settings.topBar %}
-      <div class="lg:block hidden  bg-gray-100 px-[5em] py-2 border-b border-gray-200">
+<header
+  x-cloak
+  x-data="{ search : false }"
+  class="w-full relative "
+  x-cloak>
+  <!-- Top Menu -->
+  {% if section.settings.topBar %}
+    <div class="lg:block hidden  bg-gray-100 px-[5em] py-2 border-b border-gray-200">
       <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
         <div class="text-[12px] roboto text-slate-500 mb-2 md:mb-0 flex  gap-4">
           <span class="mr-4 text-[11px] ">PHONE: +01 256 25 235</span>
@@ -33,224 +30,239 @@ x-cloak>
         </div>
       </div>
     </div>
-     {% endif %}
-    
-    
-    <!-- Main Menu -->
-    <div  x-show=" !search " class="py-4 00 shadow-sm sm:px-[4.5em]">
-      <div class="container mx-auto px-4">
-        <div class="flex items-center justify-between">
-          <!-- Logo -->
-          <a href="#" class="">
-            <div class="flex items-center ">
-              <img src="{{ 'logo.png' |  asset_url }}" alt="" width="" height="" class="sm:w-full h-full w-[75%]  ">
-            </div>
-          </a>
-          
-         
-          
-          <!-- Desktop Navigation -->
-          <nav class=" hidden lg:flex items-center space-x-8 text-[14px] justify-between  w-[40%] ">
-            {% for link in main_menu_linklist %}
-              {% if link.links != blank %}
-                <!-- Dropdown Parent -->
+  {% endif %}
+
+
+  <!-- Main Menu -->
+  <div x-show=" !search " class="py-4 00 shadow-sm sm:px-[4.5em]">
+    <div class="container mx-auto px-4">
+      <div class="flex items-center justify-between">
+        <!-- Logo -->
+        <a href="#" class="">
+          <div class="flex items-center ">
+            <img
+              src="{{ 'logo.png' |  asset_url }}"
+              alt=""
+              width=""
+              height=""
+              class="sm:w-full h-full w-[75%]  ">
+          </div>
+        </a>
+
+
+        <!-- Desktop Navigation -->
+        <nav class=" hidden lg:flex items-center space-x-8 text-[14px] justify-between  w-[40%] ">
+          {% for link in main_menu_linklist %}
+            {% if link.links != blank %}
+              <!-- Dropdown Parent -->
+              <div
+                x-data="{open: false}"
+                @mouseenter="open = true"
+                @mouseleave="open = false"
+                class="flex items-center relative ">
+
+                <!-- Parent Link -->
+                <a class="links cursor-pointer">{{ link.title }}</a>
+
+                <!-- Dropdown Icon -->
+                <button class="pl-1" aria-label="Toggle dropdown">
+                  {% render 'icon-dropdown' %}
+                </button>
+
+                <!-- Dropdown Content -->
                 <div
-                  x-data="{open: false}"
-                  @mouseenter="open = true"
-                  @mouseleave="open = false"
-                  class="flex items-center relative ">
-    
-                  <!-- Parent Link -->
-                  <a class="links cursor-pointer" >{{ link.title }}</a>
-    
-                  <!-- Dropdown Icon -->
-                  <button class="pl-1" aria-label="Toggle dropdown">
-                    {% render 'icon-dropdown' %}
-                  </button>
-    
-                  <!-- Dropdown Content -->
-                  <div
-                    x-show="open"
-                    x-transition
-                    class="absolute bg-white left-0 top-[1.7em] min-w-[200px] duration-500 z-10">
-                    <div class="flex flex-col  ">
-                      {% for sub_link in link.links %}
-                        {% if sub_link.title == 'SHOP CATAGORY' %}
-                          <a class="p-4 border-[1px] border-slate-100 hover:bg-[#71CD14] hover:text-white duration-300 " href="/collections/all">
+                  x-show="open"
+                  x-transition
+                  class="absolute bg-white left-0 top-[1.7em] min-w-[200px] duration-500 z-10">
+                  <div class="flex flex-col  ">
+                    {% for sub_link in link.links %}
+                      {% if sub_link.title == 'SHOP CATAGORY' %}
+                        <a class="p-4 border-[1px] border-slate-100 hover:bg-[#71CD14] hover:text-white duration-300 " href="/collections/all">
                           {{ sub_link.title }}
                         </a>
 
-                        {% else %}
+                      {% else %}
                         <a class="p-4 border-[1px] border-slate-100 hover:bg-[#71CD14] hover:text-white duration-300 " href="{{sub_link.url}}">
                           {{ sub_link.title }}
                         </a>
-                        {% endif %}
-                        
-                      {% endfor %}
-                    </div>
+                      {% endif %}
+
+                    {% endfor %}
                   </div>
                 </div>
-    
-              {% else %}
-                <!-- Simple Link -->
-                <a class="links" href="{{link.url}}">{{ link.title }}</a>
-              {% endif %}
-            {% endfor %}
-          </nav>
-          
-          <!-- Icons -->
-          <div class=" flex  lg:flex items-center  text-[14px]   lg:w-[20%]   justify-end gap-[1.2em] sm:pr-[1.6em]">
-            <button
-              x-on:click="search = true"
-              type="button"
-              class="whitespace-nowrap text-base text-gray-500 hover:text-gray-900">
-              {% render 'icon-search' %}
-            </button>
-             <div class=" relative cart-icon">
-              <a class="whitespace-nowrap cart_drawer cart_drawer_open py-[0.5em] text-base text-gray-500 hover:text-gray-900">
-                {% render 'icon-shopping-bag' %}
-
-              </a> 
-               
-                <p id="cart-count" class=" absolute -top-[1em] -right-[0.3em] px-[0.2em] rounded-full bg-green-400  "> {% if cart.item_count > 0 %}
-                     {{ cart.item_count }}
-                {% endif %} </p>
-                
-           
-             </div>
-
-
-             {% if section.settings.wishlist %}
-              
-              <div class=" relative">
-               <a  class="whitespace-nowrap text-base text-gray-500 hover:text-green-400" href="/pages/wishlist">{% render 'icon-wishlist' %}</a>
- 
- 
-               <p id="wish_count" class="wish_count absolute -top-[1em] -right-[0.3em] px-[0.2em] rounded-full bg-green-400  ">  </p>
               </div>
-             {% endif %}
 
-             
-           
-    
-            {% if shop.customer_accounts_enabled %}
-              {% if customer %}
-                    <a class="hidden lg:block" href="{{routes.account_url}}">{% render 'icon-account' %}</a>
-                    {% comment %} <a class="hover:scale-[1.03] duration-300 text-red-500 hidden lg:block" href="{{routes.account_logout_url}}">LogOut</a> {% endcomment %}
-    
-                    {% else %}
-                     
-                      <a  class="hover:text-[#71CD14] duration-300 hover:translate-y-1 hidden lg:block" href="{{routes.account_login_url}}">LogIn</a>
-                      {% comment %} <a class="hover:text-[#71CD14] duration-300 hover:translate-y-1 hidden lg:block"  href="{{routes.account_register_url}}">Register</a> {% endcomment %}
-              {% endif %}
+            {% else %}
+              <!-- Simple Link -->
+              <a class="links" href="{{link.url}}">{{ link.title }}</a>
             {% endif %}
+          {% endfor %}
+        </nav>
+
+        <!-- Icons -->
+        <div class=" flex  lg:flex items-center  text-[14px]   lg:w-[20%]   justify-end gap-[1.2em] sm:pr-[1.6em]">
+          <button
+            x-on:click="search = true"
+            type="button"
+            class="whitespace-nowrap text-base text-gray-500 hover:text-gray-900">
+            {% render 'icon-search' %}
+          </button>
+          <div class=" relative cart-icon">
+            <a class="whitespace-nowrap cart_drawer cart_drawer_open py-[0.5em] text-base text-gray-500 hover:text-gray-900">
+              {% render 'icon-shopping-bag' %}
+
+            </a>
+
+            <p id="cart-count" class=" absolute -top-[1em] -right-[0.3em] px-[0.2em] rounded-full bg-green-400  ">
+              {% if cart.item_count > 0 %}
+                {{ cart.item_count }}
+              {% endif %}
+            </p>
 
 
-            <div class="lg:hidden " x-data="{cross:false , bars:true}">
-            <div x-on:click="cross=true , bars=false" x-show="bars" id="bars" class="">
+          </div>
+
+
+          {% if section.settings.wishlist %}
+
+            <div class=" relative">
+              <a class="whitespace-nowrap text-base text-gray-500 hover:text-green-400" href="/pages/wishlist">{% render 'icon-wishlist' %}</a>
+
+
+              <p id="wish_count" class="wish_count absolute -top-[1em] -right-[0.3em] px-[0.2em] rounded-full bg-green-400  "></p>
+            </div>
+          {% endif %}
+
+
+          {% if shop.customer_accounts_enabled %}
+            {% if customer %}
+              <a class="hidden lg:block" href="{{routes.account_url}}">{% render 'icon-account' %}</a>
+            {% comment %} <a class="hover:scale-[1.03] duration-300 text-red-500 hidden lg:block" href="{{routes.account_logout_url}}">LogOut</a> {% endcomment %}
+
+            {% else %}
+
+              <a class="hover:text-[#71CD14] duration-300 hover:translate-y-1 hidden lg:block" href="{{routes.account_login_url}}">LogIn</a>
+              {% comment %} <a class="hover:text-[#71CD14] duration-300 hover:translate-y-1 hidden lg:block"  href="{{routes.account_register_url}}">Register</a> {% endcomment %}
+            {% endif %}
+          {% endif %}
+
+
+          <div class="lg:hidden " x-data="{cross:false , bars:true}">
+            <div
+              x-on:click="cross=true , bars=false"
+              x-show="bars"
+              id="bars"
+              class="">
               {% render 'icon-menu' %}
             </div>
 
-            <div x-on:click="bars=true,cross=false" x-show="cross" id="cross" class="">
+            <div
+              x-on:click="bars=true,cross=false"
+              x-show="cross"
+              id="cross"
+              class="">
               {% render 'icon-close' %}
             </div>
-               
-          </div>
+
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <div id="menus" class="w-full lg:hidden h-[0em] overflow-hidden duration-300  bg-white">
-      <nav class=" ml-[2em] flex flex-col lg:hidden items-start space-x-8 text-[14px] justify-center gap-[1.5em] mt-[2em] ">
-           
-            
-      
+  <div id="menus" class="w-full lg:hidden h-[0em] overflow-hidden duration-300  bg-white">
+    <nav class=" ml-[2em] flex flex-col lg:hidden items-start space-x-8 text-[14px] justify-center gap-[1.5em] mt-[2em] ">
 
-            {% for link in main_menu_linklist %}
-              {% if link.links != blank %}
-                <!-- Dropdown Parent -->
-                <div
-                  x-data="{open: false}"
-                  @click = "open = !open"
-                  class="flex items-center relative">
-    
-                  <!-- Parent Link -->
-                  <a class="links" href="{{link.url}}">{{ link.title }}</a>
-    
-                  <!-- Dropdown Icon -->
-                  <button class="pl-1" aria-label="Toggle dropdown">
-                    {% render 'icon-dropdown' %}
-                  </button>
-    
-                  <!-- Dropdown Content -->
-                  <div
-                    x-show="open"
-                    x-transition
-                    class="absolute bg-white left-0 top-[1.7em] min-w-[200px] duration-500 z-10">
-                    <div class="flex flex-col  ">
-                      {% for sub_link in link.links %}
-                        <a class="p-4 border-[1px] border-slate-100 hover:bg-[#71CD14] hover:text-white duration-300 " href="{{sub_link.url}}">
-                          {{ sub_link.title }}
-                        </a>
-                      {% endfor %}
-                    </div>
-                  </div>
-                </div>
-    
-              {% else %}
-                <!-- Simple Link -->
-                <a class="links" href="{{link.url}}">{{ link.title }}</a>
-              {% endif %}
-            {% endfor %}
-            
 
-            {% if shop.customer_accounts_enabled %}
-              {% if customer %}
-                <div class="w-full  flex gap-[2em] items-center">
-                  <a class="px-[1em] py-[0.3em] bg-lime-500 rounded-sm text-white " href="{{routes.account_url}}">{% render 'icon-account' %}</a>
-                  <a class="px-[1em] py-[0.3em] bg-lime-500 rounded-sm   hover:scale-[1.03] duration-300 text-red-500 " href="{{routes.account_logout_url}}">LogOut</a>
-                </div>
-                    
-                    
-      
+      {% for link in main_menu_linklist %}
+        {% if link.links != blank %}
+          <!-- Dropdown Parent -->
+          <div
+            x-data="{open: false}"
+            @click="open = !open"
+            class="flex items-center relative">
+
+            <!-- Parent Link -->
+            <a class="links" href="{{link.url}}">{{ link.title }}</a>
+
+            <!-- Dropdown Icon -->
+            <button class="pl-1" aria-label="Toggle dropdown">
+              {% render 'icon-dropdown' %}
+            </button>
+
+            <!-- Dropdown Content -->
+            <div
+              x-show="open"
+              x-transition
+              class="absolute bg-white left-0 top-[1.7em] min-w-[200px] duration-500 z-10">
+              <div class="flex flex-col  ">
+                {% for sub_link in link.links %}
+                  {% if sub_link.title == "SHOP CATAGORY" %}
+                    <a class="p-4 border-[1px] border-slate-100 hover:bg-[#71CD14] hover:text-white duration-300 " href="/collections/all">
+                      {{ sub_link.title }}
+                    </a>
+
                     {% else %}
-                    <div class="w-full  flex gap-[2em] items-center">
-                      <a  class="px-[1em] py-[0.3em] bg-lime-500 rounded-sm text-white hover:text-[#71CD14] duration-300 hover:translate-y-1" href="{{routes.account_login_url}}">Login</a>
-                      <a class="px-[1em] py-[0.3em] bg-lime-500 rounded-sm text-white hover:text-[#71CD14] duration-300 hover:translate-y-1 "  href="{{routes.account_register_url}}">Register</a>
-                    </div>
-                     
-              {% endif %}
-            {% endif %}
-          </nav>
-    </div>
+                      
+                    <a class="p-4 border-[1px] border-slate-100 hover:bg-[#71CD14] hover:text-white duration-300 " href="{{sub_link.url}}">
+                    {{ sub_link.title }}
+                  </a>
+                  {% endif %}
+                  
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+
+        {% else %}
+          <!-- Simple Link -->
+          <a class="links" href="{{link.url}}">{{ link.title }}</a>
+        {% endif %}
+      {% endfor %}
 
 
-    {% comment %} SEARCH BAR {% endcomment %}
-     <div x-show="search" class=" relative w-full lg:px-[5em] py-[1em] flex justify-center items-center bg-white">
-      <form class="w-[75%]  lg:w-[50%]  flex" action="{{ routes.search_url }}">
-        <input type="search"
+      {% if shop.customer_accounts_enabled %}
+        {% if customer %}
+          <div class="w-full  flex gap-[2em] items-center">
+            <a class="px-[1em] py-[0.3em] bg-lime-500 rounded-sm text-white " href="{{routes.account_url}}">{% render 'icon-account' %}</a>
+            <a class="px-[1em] py-[0.3em] bg-lime-500 rounded-sm   hover:scale-[1.03] duration-300 text-red-500 " href="{{routes.account_logout_url}}">LogOut</a>
+          </div>
+
+
+        {% else %}
+          <div class="w-full  flex gap-[2em] items-center">
+            <a class="px-[1em] py-[0.3em] bg-lime-500 rounded-sm text-white hover:text-[#71CD14] duration-300 hover:translate-y-1" href="{{routes.account_login_url}}">Login</a>
+            <a class="px-[1em] py-[0.3em] bg-lime-500 rounded-sm text-white hover:text-[#71CD14] duration-300 hover:translate-y-1 " href="{{routes.account_register_url}}">Register</a>
+          </div>
+
+        {% endif %}
+      {% endif %}
+    </nav>
+  </div>
+
+
+  {% comment %} SEARCH BAR {% endcomment %}
+  <div x-show="search" class=" relative w-full lg:px-[5em] py-[1em] flex justify-center items-center bg-white">
+    <form class="w-[75%]  lg:w-[50%]  flex" action="{{ routes.search_url }}">
+      <input
+        type="search"
         placeholder="Search"
         name="q"
         value="{{ search.terms |  escape }}"
         class="w-full border-[0.5px] border-green-400 py-[0.5em] px-[1.5em] rounded-tl-sm rounded-bl-sm outline-none">
-        <input type="submit" value="Search" class="py-[0.5em] px-[1.5em] rounded-tr-sm rounded-br-sm bg-green-400 border-[0.5px] border-green-400 hover:bg-transparent hover:text-green-400 text-white duration-300 cursor-pointer">
-      </form>
-       
-      <div x-on:click="search = false" class="absolute right-[0.5em] sm:right-[1.5em] md:right-[3em] top-[25%] cursor-pointer  ">
-          {% render 'icon-close' %}
-      </div>
+      <input
+        type="submit"
+        value="Search"
+        class="py-[0.5em] px-[1.5em] rounded-tr-sm rounded-br-sm bg-green-400 border-[0.5px] border-green-400 hover:bg-transparent hover:text-green-400 text-white duration-300 cursor-pointer">
+    </form>
 
-     </div>
+    <div x-on:click="search = false" class="absolute right-[0.5em] sm:right-[1.5em] md:right-[3em] top-[25%] cursor-pointer  ">
+      {% render 'icon-close' %}
+    </div>
 
-  </header>
+  </div>
 
-
-
-
-
-
-
+</header>
 
 
 <script>
@@ -263,24 +275,24 @@ x-cloak>
       
     getBars(){
         const bars = document.getElementById("bars");
-
+  
         return bars;
     }
-
+  
     getCross(){
       const cross = document.getElementById("cross");
-
+  
       return cross;
     }
-
-
+  
+  
     getMenus(){
       const menus = document.getElementById("menus");
-
+  
       return menus;
     }
-
-
+  
+  
     initList(){
          const Bars = this.getBars();
          const Cross = this.getCross();
@@ -289,22 +301,22 @@ x-cloak>
          Bars.addEventListener("click",function(){
           List.style.height = "20em"
          })
-
-
-
+  
+  
+  
          Cross.addEventListener("click",function(){
           List.style.height = "0em"
          })
-
-
-
+  
+  
+  
     }
-
+  
     getWishlist(){
       let wishlist = localStorage.getItem('wishlist');
       return wishlist ? JSON.parse(wishlist) : [];
     }
-
+  
     updateWishList(){
       let p_list = this.getWishlist();
             let list_count = document.querySelector('#wish_count');
@@ -314,38 +326,35 @@ x-cloak>
             }
             
     }
-
+  
    
-
+  
     
-
+  
   }
-
+  
   const Menuw = new MenuList();
-
 </script>
 
 {% schema %}
   {
     "name": "Header",
     "settings": [
-     {
+      {
         "type": "link_list",
         "id": "menu",
         "default": "main-menu",
         "label": "Heading Navigation Menu"
-      },
-      {
+      }, {
         "type": "checkbox",
         "id": "topBar",
         "label": "Top Bar",
-        "default" : true
-      },
-      {
+        "default": true
+      }, {
         "type": "checkbox",
         "id": "wishlist",
         "label": "Wishlist",
-        "default" : true
+        "default": true
       }
     ]
   }
