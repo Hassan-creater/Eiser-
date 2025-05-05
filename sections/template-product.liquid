@@ -41,9 +41,9 @@
 
             <div class="Frame h-full flex  relative      frame duration-500  ">
               {% for media in product.media %}
-                <div  class="w-[365px] sm:w-[45em]   xl:w-[36.2em] width ">
+                <div  class="w-[365px] sm:w-[45em]   xl:w-[38em] width ">
                     {% render 'product-media', media : media %}
-                  </div>`
+                  </div>
               {% endfor %}
             </div>
 
@@ -53,7 +53,7 @@
 
 
             {% for media in product.media %}
-              <div data-count="{{ forloop.index0 }}" class="images w-[4em] h-[4em] hover:bg-red-400 border-[1px] border-slate-400 rounded-sm overflow-hidden ">
+              <div data-count="{{ forloop.index0 }}" class="images cursor-pointer w-[4em] h-[4em] hover:bg-red-400 border-[1px] border-slate-400 rounded-sm overflow-hidden ">
                 {% render 'product-media'
                   , media: media %}
 
@@ -459,7 +459,7 @@
     
         
         const idx = Number(img.dataset.count) || 0;
-        frame.style.transform = `translateX(-${(width[0] + 7 ) * idx}px)`;
+        frame.style.transform = `translateX(-${(width[0]  ) * idx}px)`;
       });
     });
   }
