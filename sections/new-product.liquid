@@ -61,10 +61,10 @@
     
     
               <div class="w-[90%] p-[0.3em] bg-[rgba(113,205,20,0.55)] absolute bottom-0 flex justify-evenly items-center translate-y-0 xl:translate-y-[5em] group-hover:-translate-y-[0em] duration-500 ">
-                <div quick-view="{{ items.handle }}" x-on:click=" quick_view = true"  class="quick_view flex p-[0.6em] justify-center items-center rounded-full bg-white hover:bg-green-500 hover:text-white duration-300">
+                <div quick-view="{{ items.handle }}" x-on:click=" quick_view = true"  class="quick_view cursor-pointer flex p-[0.6em] justify-center items-center rounded-full bg-white hover:bg-green-500 hover:text-white duration-300">
                   <i class="fa-solid fa-eye text-[1em]"></i>
                 </div>
-                <div data-product-id="{{ items.id }}"  data-product-handle="{{ items.handle }}"  class="wishlist flex p-[0.6em] justify-center items-center rounded-full bg-white 
+                <div data-product-id="{{ items.id }}"  data-product-handle="{{ items.handle }}"  class="wishlist flex p-[0.6em] justify-center cursor-pointer items-center rounded-full bg-white 
                  hover:bg-green-500 hover:text-red-500 duration-300">
                   <i class="fa-solid fa-heart "></i>
                 </div>
@@ -74,7 +74,6 @@
                   <input type="hidden" name="id" value="{{ items.variants.first.id }}">
                   <button type="submit" class="add-to-cart-button flex p-[0.6em] justify-center items-center rounded-full bg-white hover:bg-green-500 hover:text-white duration-300 "> <i class="fa-solid fa-cart-shopping"></i></button>
               </form>
-
               </div>
             </div>
             <div class="w-full h-[5em]  border-[1px]  border-slate-300 p-[1.5em] flex flex-col justify-center gap-[0.5em]">
